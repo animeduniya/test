@@ -7,9 +7,8 @@ export const getImageUrl = (url) => {
   if (!url) return '';
   
   try {
-    // Use wsrv.nl as the primary image proxy service
-    // It's more reliable and has better caching
-    return `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`;
+    // Use a simple proxy service that works well with anime sites
+    return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=500&h=750&fit=cover&output=webp`;
   } catch (error) {
     console.error('Error processing image URL:', error);
     return url; // Fallback to original URL

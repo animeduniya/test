@@ -138,28 +138,28 @@ function Episodelist({
 
   return (
     <div className="relative flex flex-col w-full h-full max-[1200px]:max-h-[500px]">
-      <div className="sticky top-0 z-10 flex flex-col gap-y-[5px] justify-start px-3 py-4 bg-[#0D0D15]">
-        <h1 className="text-[13px] font-bold">List of episodes:</h1>
+      <div className="sticky top-0 z-10 flex flex-col gap-y-[5px] justify-start px-3 py-4 bg-devilish-darker">
+        <h1 className="text-[13px] font-bold text-devilish-light">List of episodes:</h1>
         {totalEpisodes > 100 && (
           <div className="w-full flex gap-x-4 items-center max-[1200px]:justify-between">
             <div className="min-w-fit flex text-[13px]">
               <div
                 onClick={() => setShowDropDown((prev) => !prev)}
-                className="text-white w-fit mt-1 text-[13px] relative cursor-pointer bg-[#0D0D15] flex justify-center items-center"
+                className="text-white w-fit mt-1 text-[13px] relative cursor-pointer bg-devilish-darker flex justify-center items-center"
                 ref={dropDownRef}
               >
-                <FontAwesomeIcon icon={faList} />
+                <FontAwesomeIcon icon={faList} className="text-devilish-crimson" />
                 <div className="w-fit flex justify-center items-center gap-x-2 ml-4">
                   <p className="text-white text-[12px]">
                     EPS:&nbsp;{selectedRange[0]}-{selectedRange[1]}
                   </p>
                   <FontAwesomeIcon
                     icon={faAngleDown}
-                    className="mt-[2px] text-[10px]"
+                    className="mt-[2px] text-[10px] text-devilish-crimson"
                   />
                 </div>
                 {showDropDown && (
-                  <div className="absolute flex flex-col top-full mt-[10px] left-0 z-30 bg-white w-[150px] max-h-[200px] overflow-y-auto rounded-l-[8px]">
+                  <div className="absolute flex flex-col top-full mt-[10px] left-0 z-30 bg-devilish-darker w-[150px] max-h-[200px] overflow-y-auto rounded-l-[8px] border border-devilish-crimson/30">
                     {generateRangeOptions(totalEpisodes).map((item, index) => (
                       <div
                         key={index}
@@ -167,14 +167,14 @@ function Episodelist({
                           handleRangeSelect(item);
                           setActiveRange(item);
                         }}
-                        className={`hover:bg-gray-200 cursor-pointer text-black ${
-                          item === activeRange ? "bg-[#EFF0F4]" : ""
+                        className={`hover:bg-devilish-crimson/20 cursor-pointer text-white ${
+                          item === activeRange ? "bg-devilish-crimson/30" : ""
                         }`}
                       >
                         <p className="font-semibold text-[12px] p-3 flex justify-between items-center">
                           EPS:&nbsp;{item}
                           {item === activeRange ? (
-                            <FontAwesomeIcon icon={faCheck} />
+                            <FontAwesomeIcon icon={faCheck} className="text-devilish-crimson" />
                           ) : null}
                         </p>
                       </div>
@@ -183,14 +183,14 @@ function Episodelist({
                 )}
               </div>
             </div>
-            <div className="border-[1px] border-[#ffffff34] rounded-sm py-[4px] px-[8px] flex items-center gap-x-[10px]">
+            <div className="border-[1px] border-devilish-crimson/30 rounded-sm py-[4px] px-[8px] flex items-center gap-x-[10px]">
               <FontAwesomeIcon
                 icon={faMagnifyingGlass}
-                className="text-[11px]"
+                className="text-[11px] text-devilish-crimson"
               />
               <input
                 type="text"
-                className="w-full bg-transparent focus:outline-none rounded-sm text-[13px] font-bold placeholder:text-[12px] placeholder:font-medium"
+                className="w-full bg-transparent focus:outline-none rounded-sm text-[13px] font-bold placeholder:text-[12px] placeholder:font-medium text-white"
                 placeholder="Number of Ep"
                 onChange={handleChange}
               />
@@ -198,7 +198,7 @@ function Episodelist({
           </div>
         )}
       </div>
-      <div ref={listContainerRef} className="w-full h-full overflow-y-auto">
+      <div ref={listContainerRef} className="w-full h-full overflow-y-auto custom-scrollbar">
         <div
           className={`${
             totalEpisodes > 30
@@ -223,15 +223,15 @@ function Episodelist({
                       className={`flex items-center justify-center rounded-[3px] h-[30px] text-[13.5px] font-medium cursor-pointer group ${
                         item?.filler
                           ? isActive
-                            ? "bg-[#ffbade]"
-                            : "bg-gradient-to-r from-[#5a4944] to-[#645a4b]"
+                            ? "bg-devilish-crimson"
+                            : "bg-gradient-to-r from-devilish-darker to-devilish-dark"
                           : ""
-                      } md:hover:bg-[#67686F] 
+                      } md:hover:bg-devilish-crimson/20 
                           md:hover:text-white
                        ${
                          isActive
-                           ? "bg-[#ffbade] text-black"
-                           : "bg-[#35373D] text-gray-400"
+                           ? "bg-devilish-crimson text-white"
+                           : "bg-devilish-dark text-gray-400"
                        } ${isSearched ? "glow-animation" : ""} `}
                       onClick={() => {
                         if (episodeNumber) {
@@ -244,7 +244,7 @@ function Episodelist({
                       <span
                         className={`${
                           item?.filler
-                            ? "text-white md:group-hover:text-[#ffbade]"
+                            ? "text-white md:group-hover:text-devilish-crimson"
                             : ""
                         }`}
                       >
@@ -266,10 +266,10 @@ function Episodelist({
                     ref={isActive ? activeEpisodeRef : null}
                     className={`w-full pl-5 pr-2 py-3 flex items-center justify-start gap-x-8 cursor-pointer ${
                       (index + 1) % 2 && !isActive
-                        ? "bg-[#201F2D] text-gray-400"
+                        ? "bg-devilish-darker text-gray-400"
                         : "bg-none"
-                    } group md:hover:bg-[#2B2A42] ${
-                      isActive ? "text-[#ffbade] bg-[#2B2A42]" : ""
+                    } group md:hover:bg-devilish-crimson/20 ${
+                      isActive ? "text-devilish-crimson bg-devilish-crimson/10" : ""
                     } ${isSearched ? "glow-animation" : ""}`}
                     onClick={() => {
                       if (episodeNumber) {
@@ -281,13 +281,13 @@ function Episodelist({
                   >
                     <p className="text-[14px] font-medium">{index + 1}</p>
                     <div className="w-full flex items-center justify-between gap-x-[5px]">
-                      <h1 className="line-clamp-1 text-[15px] font-light group-hover:text-[#ffbade]">
+                      <h1 className="line-clamp-1 text-[15px] font-light group-hover:text-devilish-crimson">
                         {language === "EN" ? item?.title : item?.japanese_title}
                       </h1>
                       {isActive && (
                         <FontAwesomeIcon
                           icon={faCirclePlay}
-                          className="w-[20px] h-[20px] text-[#ffbade]"
+                          className="w-[20px] h-[20px] text-devilish-crimson"
                         />
                       )}
                     </div>

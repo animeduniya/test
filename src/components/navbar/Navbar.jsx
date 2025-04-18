@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import logoTitle from "@/src/config/logoTitle";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,6 +6,9 @@ import {
   faFilm,
   faRandom,
   faStar,
+  faXmark,
+  faCircleInfo,
+  faLanguage,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { Link, useLocation } from "react-router-dom";
@@ -13,7 +16,8 @@ import Sidebar from "../sidebar/Sidebar";
 import { SearchProvider } from "@/src/context/SearchContext";
 import WebSearch from "../searchbar/WebSearch";
 import MobileSearch from "../searchbar/MobileSearch";
-import { FaTelegramPlane } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import { faInstagram, faDiscord } from "@fortawesome/free-brands-svg-icons";
 
 function Navbar() {
   const location = useLocation();
@@ -23,10 +27,13 @@ function Navbar() {
   );
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [activeHover, setActiveHover] = useState(null);
+  const navRef = useRef(null);
+  const [activeLink, setActiveLink] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener("scroll", handleScroll);
     return () => {
@@ -35,110 +42,221 @@ function Navbar() {
   }, []);
 
   const handleHamburgerClick = () => {
-    setIsSidebarOpen(true);
+    setIsSidebarOpen(!isSidebarOpen);
+    document.body.style.overflow = isSidebarOpen ? "auto" : "hidden";
   };
 
   const handleCloseSidebar = () => {
     setIsSidebarOpen(false);
+    document.body.style.overflow = "auto";
   };
+
   const handleRandomClick = () => {
     if (location.pathname === "/random") {
       window.location.reload();
     }
   };
+
   useEffect(() => {
     setIsNotHomePage(
       location.pathname !== "/" && location.pathname !== "/home"
     );
   }, [location.pathname]);
 
+  const navItems = [
+    { icon: faRandom, label: "Random", path: "/random" },
+    { icon: faFilm, label: "Movie", path: "/movie" },
+    { icon: faStar, label: "Popular", path: "/most-popular" },
+  ];
+
+  const socialItems = [
+    { icon: faInstagram, label: "Instagram", url: "https://www.instagram.com/its.dark.devil?igsh=MWtpNHA1ZWxwcmRmaA==" },
+    { icon: faDiscord, label: "Discord", url: "/" },
+  ];
+
   return (
     <SearchProvider>
-      <nav
-        className={`fixed top-0 left-0 w-full h-16 z-[1000000] flex p-4 py-8 items-center justify-between transition-all duration-300 ease-in-out ${
-          isNotHomePage ? "bg-[#201F31]" : "bg-opacity-0"
+      <motion.nav
+        ref={navRef}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className={`fixed top-0 left-0 w-full h-20 z-[1000] flex px-6 py-4 items-center justify-between transition-all duration-500 ease-in-out ${
+          isNotHomePage || isScrolled
+            ? "bg-devilish-dark/95 backdrop-blur-xl"
+            : "bg-transparent"
         } ${
-          isScrolled ? "bg-[#2D2B44] bg-opacity-90 backdrop-blur-md" : ""
-        } max-[600px]:h-fit max-[600px]:flex-col max-[1200px]:bg-opacity-100 max-[600px]:py-2`}
+          isScrolled
+            ? "shadow-2xl shadow-devilish-crimson/20 border-b border-devilish-crimson/10"
+            : ""
+        } max-[600px]:h-16 max-[600px]:px-4`}
       >
+        {/* Left Section */}
         <div className="flex gap-x-6 items-center w-fit max-lg:w-full max-lg:justify-between">
-          <div className="flex gap-x-6 items-center w-fit">
-            <FontAwesomeIcon
-              icon={faBars}
-              className="text-2xl text-white mt-1 cursor-pointer"
+          <div className="flex gap-x-6 items-center">
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleHamburgerClick}
-            />
-            <Link
-              to="/"
-              className="text-4xl font-bold max-[575px]:text-3xl cursor-pointer"
+              className="text-devilish-light hover:text-devilish-crimson transition-colors duration-300"
+              aria-label="Menu"
             >
-              {logoTitle.slice(0, 3)}
-              <span className="text-[#FFBADE]">{logoTitle.slice(3, 4)}</span>
-              {logoTitle.slice(4)}
-            </Link>
+              <FontAwesomeIcon
+                icon={isSidebarOpen ? faXmark : faBars}
+                size="lg"
+              />
+            </motion.button>
+            
+            <motion.div whileHover={{ scale: 1.03 }}>
+              <Link
+                to="/"
+                className="text-4xl font-bold max-[575px]:text-3xl cursor-pointer devilish-gradient-text transition-transform duration-300 flex items-center"
+              >
+                {logoTitle}
+                <motion.span 
+                  className="text-xs ml-2 bg-devilish-crimson/10 text-devilish-crimson px-2 py-1 rounded-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  BETA
+                </motion.span>
+              </Link>
+            </motion.div>
           </div>
-          <WebSearch />
+          
+          <div className="max-[900px]:hidden">
+            <WebSearch />
+          </div>
         </div>
-        <div className="flex gap-x-7 items-center max-lg:hidden">
-          {[
-            { icon: faRandom, label: "Random", path: "/random" },
-            { icon: faFilm, label: "Movie", path: "/movie" },
-            { icon: faStar, label: "Popular", path: "/most-popular" },
-          ].map((item) => (
+
+        {/* Right Section */}
+        <div className="flex gap-x-8 items-center max-lg:hidden">
+          {navItems.map((item) => (
             <Link
               key={item.path}
-              to={
-                item.path === "/random"
-                  ? location.pathname === "/random"
-                    ? "#"
-                    : "/random"
-                  : item.path
-              }
-              onClick={item.path === "/random" ? handleRandomClick : undefined}
-              className="flex flex-col gap-y-1 items-center cursor-pointer"
+              to={item.path}
+              onClick={(e) => {
+                if (item.path === "/random" && location.pathname === "/random") {
+                  e.preventDefault();
+                  window.location.reload();
+                }
+              }}
+              className="nav-link flex flex-col items-center cursor-pointer p-3 rounded-lg hover:bg-devilish-crimson/10 transition-all duration-300"
             >
               <FontAwesomeIcon
                 icon={item.icon}
-                className="text-[#ffbade] text-xl font-bold"
+                className={`text-xl transition-all duration-300 ${
+                  location.pathname === item.path
+                    ? "text-devilish-crimson"
+                    : "text-devilish-light/80"
+                }`}
               />
-              <p className="text-[15px]">{item.label}</p>
+              <span
+                className={`text-xs font-medium transition-all duration-300 mt-1 ${
+                  location.pathname === item.path
+                    ? "text-devilish-crimson"
+                    : "text-devilish-light/80"
+                }`}
+              >
+                {item.label}
+              </span>
             </Link>
           ))}
-          <div className="flex flex-col gap-y-1 items-center w-auto">
-            <div className="flex">
-              {["EN", "JP"].map((lang, index) => (
-                <button
-                  key={lang}
-                  onClick={() => toggleLanguage(lang)}
-                  className={`px-1 py-[1px] text-xs font-bold ${
-                    index === 0 ? "rounded-l-[3px]" : "rounded-r-[3px]"
-                  } ${
-                    language === lang
-                      ? "bg-[#ffbade] text-black"
-                      : "bg-gray-600 text-white"
-                  }`}
-                >
-                  {lang}
-                </button>
-              ))}
-            </div>
-            <div className="w-full">
-              <p className="whitespace-nowrap text-[15px]">Anime name</p>
-            </div>
-          </div>
-          <Link
-            to="https://t.me/zenime_discussion"
-            className="flex flex-col gap-y-1 items-center cursor-pointer"
+          
+          {/* Language Toggle */}
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative"
           >
-            <FaTelegramPlane
-              // icon={faTelegram}
-              className="text-xl font-bold text-[#ffbade]"
-            />
-            <p className="text-[15px] mb-[1px] text-white">Join Telegram</p>
-          </Link>
+            <button
+              onClick={toggleLanguage}
+              className="nav-link flex flex-col gap-y-1 items-center cursor-pointer group"
+            >
+              <div className="relative">
+                <FontAwesomeIcon
+                  icon={faLanguage}
+                  className={`text-xl transition-all duration-300 ${
+                    language === "EN"
+                      ? "text-devilish-crimson"
+                      : "text-devilish-light/80"
+                  }`}
+                />
+              </div>
+              <span
+                className={`text-xs font-medium transition-all duration-300 ${
+                  language === "EN"
+                    ? "text-devilish-crimson"
+                    : "text-devilish-light/80"
+                }`}
+              >
+                {language === "EN" ? "English" : "日本語"}
+              </span>
+            </button>
+          </motion.div>
+          
+          {/* About */}
+          <motion.div 
+            whileHover={{ scale: 1.05 }}
+            className="relative"
+          >
+            <Link
+              to="/about"
+              className="nav-link flex flex-col gap-y-1 items-center cursor-pointer group"
+            >
+              <FontAwesomeIcon
+                icon={faCircleInfo}
+                className={`text-xl transition-all duration-300 ${
+                  location.pathname === "/about"
+                    ? "text-devilish-crimson"
+                    : "text-devilish-light/80"
+                }`}
+              />
+              <span
+                className={`text-xs font-medium transition-all duration-300 ${
+                  location.pathname === "/about"
+                    ? "text-devilish-crimson"
+                    : "text-devilish-light/80"
+                }`}
+              >
+                About
+              </span>
+            </Link>
+          </motion.div>
+          
+          {/* Social Links */}
+          <div className="flex gap-x-5 ml-2">
+            {socialItems.map((item) => (
+              <motion.a
+                key={item.label}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ y: -2, color: "#ff3860" }}
+                className="text-devilish-light/70 hover:text-devilish-crimson transition-colors"
+                aria-label={item.label}
+              >
+                <FontAwesomeIcon icon={item.icon} />
+              </motion.a>
+            ))}
+          </div>
         </div>
-        <MobileSearch />
-      </nav>
+        
+        <div className="lg:hidden">
+          <MobileSearch />
+        </div>
+        
+        {/* Scrolling Indicator */}
+        {isNotHomePage && (
+          <motion.div
+            className="absolute bottom-0 left-0 h-0.5 bg-devilish-crimson"
+            initial={{ width: 0 }}
+            animate={{ width: `${(window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100}%` }}
+            transition={{ duration: 0.3 }}
+          />
+        )}
+      </motion.nav>
+      
       <Sidebar isOpen={isSidebarOpen} onClose={handleCloseSidebar} />
     </SearchProvider>
   );

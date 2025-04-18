@@ -1,27 +1,17 @@
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useState, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Suggestion from "../suggestion/Suggestion";
-import useSearch from "@/src/hooks/useSearch";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import Suggestion from "../suggestion/Suggestion";
 
 function WebSearch() {
+    const [searchValue, setSearchValue] = useState("");
+    const [isFocused, setIsFocused] = useState(false);
     const navigate = useNavigate();
-    const {
-        setIsSearchVisible,
-        searchValue,
-        setSearchValue,
-        isFocused,
-        setIsFocused,
-        debouncedValue,
-        suggestionRefs,
-        addSuggestionRef,
-    } = useSearch();
+    const suggestionRefs = useRef([]);
 
     const handleSearchClick = () => {
-        if (window.innerWidth <= 600) {
-            setIsSearchVisible((prev) => !prev);
-        }
-        if (searchValue.trim() && window.innerWidth > 600) {
+        if (searchValue.trim()) {
             navigate(`/search?keyword=${encodeURIComponent(searchValue)}`);
         }
     };
@@ -30,7 +20,7 @@ function WebSearch() {
         <div className="flex items-center relative w-[380px] max-[600px]:w-fit">
             <input
                 type="text"
-                className="bg-white px-4 py-2 text-black focus:outline-none w-full max-[600px]:hidden"
+                className="bg-devilish-darker/90 px-4 py-2 text-foreground focus:outline-none w-full max-[600px]:hidden rounded-lg border border-devilish-border/20 placeholder:text-foreground/50"
                 placeholder="Search anime..."
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
@@ -54,20 +44,21 @@ function WebSearch() {
                 }}
             />
             <button
-                className="bg-white p-2 max-[600px]:bg-transparent focus:outline-none max-[600px]:p-0"
+                className="bg-devilish-darker/90 p-2 max-[600px]:bg-transparent focus:outline-none max-[600px]:p-0 rounded-lg hover:bg-devilish-darker/80 transition-colors duration-300"
                 onClick={handleSearchClick}
             >
                 <FontAwesomeIcon
                     icon={faMagnifyingGlass}
-                    className="text-lg text-black hover:text-[#ffbade] max-[600px]:text-white max-[600px]:text-2xl max-[575px]:text-xl max-[600px]:mt-[7px]"
+                    className="text-lg text-foreground/80 hover:text-devilish-crimson max-[600px]:text-foreground max-[600px]:text-2xl max-[575px]:text-xl max-[600px]:mt-[7px] transition-colors duration-300"
                 />
             </button>
-            {searchValue.trim() && isFocused && (
-                <div
-                    ref={addSuggestionRef}
-                    className="absolute z-[100000] top-full w-full"
-                >
-                    <Suggestion keyword={debouncedValue} className="w-full" />
+            {isFocused && searchValue && (
+                <div className="absolute top-full left-0 w-full mt-2 bg-devilish-darker/95 rounded-lg border border-devilish-border/20 shadow-lg z-50">
+                    <Suggestion
+                        keyword={searchValue}
+                        suggestionRefs={suggestionRefs}
+                        setIsFocused={setIsFocused}
+                    />
                 </div>
             )}
         </div>

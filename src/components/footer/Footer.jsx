@@ -5,23 +5,17 @@ import { Link } from "react-router-dom";
 function Footer() {
   return (
     <footer className="flex flex-col w-full mt-[100px] px-4 max-[500px]:px-0">
-      <div
-        style={{ borderBottom: "1px solid rgba(255, 255, 255, .075)" }}
-        className="w-full text-left max-[500px]:hidden"
-      >
+      <div className="w-full text-left max-[500px]:hidden border-b border-devilish-border/20">
         <img
-          src="https://i.postimg.cc/SsKY6Y9f/2H76i57.png"
-          alt={logoTitle}
-          className="w-[200px] h-[100px]"
+          src="/logo.png"
+          alt="SkyAnime"
+          className="w-[200px] h-[100px] epic-logo animate-logo-glow animate-logo-float"
         />
       </div>
-      <div className="flex py-5 flex-col w-full space-y-4 max-md:items-center max-[500px]:bg-[#373646]">
+      <div className="flex py-5 flex-col w-full space-y-4 max-md:items-center max-[500px]:bg-devilish-darker">
         <div className="flex w-fit items-center space-x-6 max-[500px]:hidden">
-          <p className="text-2xl font-bold max-md:text-lg">A-Z LIST</p>
-          <p
-            style={{ borderLeft: "1px solid rgba(255, 255, 255, 0.6)" }}
-            className="text-md font-semibold pl-6"
-          >
+          <p className="text-2xl font-bold max-md:text-lg devilish-gradient-text">A-Z LIST</p>
+          <p className="text-md font-semibold pl-6 border-l border-foreground/60">
             Searching anime order by alphabet name A to Z
           </p>
         </div>
@@ -37,7 +31,7 @@ function Footer() {
             <Link
               to={`az-list/${item === "All" ? "" : item}`}
               key={index}
-              className="text-lg bg-[#373646] px-2 rounded-md font-bold hover:text-black hover:bg-[#FFBADE] hover:cursor-pointer transition-all ease-out"
+              className="text-lg bg-devilish-darker/90 px-2 rounded-md font-bold hover:text-devilish-crimson hover:bg-devilish-darker transition-all duration-300 ease-out"
             >
               {item}
             </Link>

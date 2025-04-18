@@ -32,7 +32,7 @@ function Qtip({ id }) {
   }, [id]);
 
   return (
-    <div className="w-[320px] h-fit rounded-xl p-4 flex justify-center items-center bg-[#3e3c50] bg-opacity-70 backdrop-blur-[10px] z-50">
+    <div className="w-[320px] h-fit rounded-xl p-4 flex justify-center items-center bg-devilish-darker bg-opacity-70 backdrop-blur-[10px] z-50">
       {loading || error || !qtip ? (
         <BouncingLoader />
       ) : (
@@ -43,19 +43,19 @@ function Qtip({ id }) {
           <div className="w-full flex items-center relative mt-2">
             {qtip?.rating && (
               <div className="flex gap-x-2 items-center">
-                <FontAwesomeIcon icon={faStar} className="text-[#ffc107]" />
-                <p className="text-[#b7b7b8]">{qtip.rating}</p>
+                <FontAwesomeIcon icon={faStar} className="text-devilish-gold" />
+                <p className="text-devilish-light/70">{qtip.rating}</p>
               </div>
             )}
             <div className="flex ml-4 gap-x-[1px] overflow-hidden rounded-md items-center h-fit">
               {qtip?.quality && (
-                <div className="bg-[#ffbade] px-[7px] w-fit flex justify-center items-center py-[1px] text-black">
+                <div className="bg-devilish-crimson px-[7px] w-fit flex justify-center items-center py-[1px] text-devilish-darker">
                   <p className="text-[12px] font-semibold">{qtip.quality}</p>
                 </div>
               )}
               <div className="flex gap-x-[1px] w-fit items-center py-[1px]">
                 {qtip?.subCount && (
-                  <div className="flex gap-x-1 justify-center items-center bg-[#B0E3AF] px-[7px] text-black">
+                  <div className="flex gap-x-1 justify-center items-center bg-devilish-green px-[7px] text-devilish-darker">
                     <FontAwesomeIcon
                       icon={faClosedCaptioning}
                       className="text-[13px]"
@@ -64,7 +64,7 @@ function Qtip({ id }) {
                   </div>
                 )}
                 {qtip?.dubCount && (
-                  <div className="flex gap-x-1 justify-center items-center bg-[#B9E7FF] px-[7px] text-black">
+                  <div className="flex gap-x-1 justify-center items-center bg-devilish-blue px-[7px] text-devilish-darker">
                     <FontAwesomeIcon
                       icon={faMicrophone}
                       className="text-[13px]"
@@ -73,7 +73,7 @@ function Qtip({ id }) {
                   </div>
                 )}
                 {qtip?.episodeCount && (
-                  <div className="flex gap-x-1 justify-center items-center bg-[#a199a3] px-[7px] text-black">
+                  <div className="flex gap-x-1 justify-center items-center bg-devilish-gray px-[7px] text-devilish-darker">
                     <p className="text-[13px] font-semibold">
                       {qtip.episodeCount}
                     </p>
@@ -81,58 +81,58 @@ function Qtip({ id }) {
                 )}
               </div>
               {qtip?.type && (
-                <div className="absolute right-0 top-0 justify-center items-center rounded-sm bg-[#ffbade] px-[6px] text-black">
+                <div className="absolute right-0 top-0 justify-center items-center rounded-sm bg-devilish-crimson px-[6px] text-devilish-darker">
                   <p className="font-semibold text-[13px]">{qtip.type}</p>
                 </div>
               )}
             </div>
           </div>
           {qtip?.description && (
-            <p className="text-[#d7d7d8] text-[13px] leading-4 font-light line-clamp-3 mt-1">
+            <p className="text-devilish-light/80 text-[13px] leading-4 font-light line-clamp-3 mt-1">
               {qtip.description}
             </p>
           )}
           <div className="flex flex-col mt-1">
             {qtip?.japaneseTitle && (
               <div className="leading-4">
-                <span className="text-[#b7b7b8] text-[13px]">
+                <span className="text-devilish-light/70 text-[13px]">
                   Japanese:&nbsp;
                 </span>
-                <span className="text-[13px]">{qtip.japaneseTitle}</span>
+                <span className="text-devilish-light/70 text-[13px]">{qtip.japaneseTitle}</span>
               </div>
             )}
             {qtip?.Synonyms && (
               <div className="leading-4">
-                <span className="text-[#b7b7b8] text-[13px]">
+                <span className="text-devilish-light/70 text-[13px]">
                   Synonyms:&nbsp;
                 </span>
-                <span className="text-[13px]">{qtip.Synonyms}</span>
+                <span className="text-devilish-light/70 text-[13px]">{qtip.Synonyms}</span>
               </div>
             )}
             {qtip?.airedDate && (
               <div className="leading-4">
-                <span className="text-[#b7b7b8] text-[13px]">Aired:&nbsp;</span>
-                <span className="text-[13px]">{qtip.airedDate}</span>
+                <span className="text-devilish-light/70 text-[13px]">Aired:&nbsp;</span>
+                <span className="text-devilish-light/70 text-[13px]">{qtip.airedDate}</span>
               </div>
             )}
             {qtip?.status && (
               <div className="leading-4">
-                <span className="text-[#b7b7b8] text-[13px]">
+                <span className="text-devilish-light/70 text-[13px]">
                   Status:&nbsp;
                 </span>
-                <span className="text-[13px]">{qtip.status}</span>
+                <span className="text-devilish-light/70 text-[13px]">{qtip.status}</span>
               </div>
             )}
             {qtip?.genres && (
               <div className="leading-4 flex flex-wrap text-wrap">
-                <span className="text-[#b7b7b8] text-[13px]">
+                <span className="text-devilish-light/70 text-[13px]">
                   Genres:&nbsp;
                 </span>
                 {qtip.genres.map((genre, index) => (
                   <Link
                     to={`/genre/${genre}`}
                     key={index}
-                    className="text-[13px] hover:text-[#ffbade]"
+                    className="text-[13px] hover:text-devilish-crimson"
                   >
                     <span>
                       {genre}
@@ -145,7 +145,7 @@ function Qtip({ id }) {
           </div>
           <Link
             to={qtip.watchLink}
-            className="w-[80%] flex mt-4 justify-center items-center gap-x-2 bg-[#ffbade] py-[9px] rounded-3xl"
+            className="w-[80%] flex mt-4 justify-center items-center gap-x-2 bg-devilish-crimson py-[9px] rounded-3xl"
           >
             <FontAwesomeIcon icon={faPlay} className="text-[14px] text-black" />
             <p className="text-[14px] font-semibold text-black">Watch Now</p>

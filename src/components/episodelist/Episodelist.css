@@ -1,15 +1,66 @@
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #0f0f0f;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #ff0033;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #cc0000;
+}
+
+/* Glow animation for searched episodes */
 @keyframes glow {
   0% {
-    box-shadow: 0 0 7px #ffbade;
+    box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
   }
   50% {
-    box-shadow: 0 0 20px #ffbade;
+    box-shadow: 0 0 15px rgba(255, 0, 51, 0.8);
   }
   100% {
-    box-shadow: 0 0 7px #ffbade;
+    box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
   }
 }
 
 .glow-animation {
-  animation: glow 1.5s infinite;
+  animation: glow 2s infinite;
+}
+
+/* 3D transform preservation */
+.episode-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* Hover effects */
+.episode-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent, rgba(236, 72, 153, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.episode-card:hover::after {
+  opacity: 1;
+}
+
+.episode-item:hover {
+  box-shadow: 0 0 7px rgba(255, 0, 51, 0.5);
+}
+
+.episode-item.active {
+  box-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
+}
+
+.episode-item:hover.active {
+  box-shadow: 0 0 7px rgba(255, 0, 51, 0.5);
 }

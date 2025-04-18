@@ -1,141 +1,115 @@
-import { FaChevronLeft } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilm, faRandom } from "@fortawesome/free-solid-svg-icons";
-import { useLanguage } from "@/src/context/LanguageContext";
-import { useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import {
-  cleanupScrollbar,
-  toggleScrollbar,
-} from "@/src/helper/toggleScrollbar";
+  faTimes,
+  faHome,
+  faFilm,
+  faRandom,
+  faStar,
+  faHistory,
+} from "@fortawesome/free-solid-svg-icons";
+import { useLanguage } from "@/src/context/LanguageContext";
+import { Link, useLocation } from "react-router-dom";
 
-const Sidebar = ({ isOpen, onClose }) => {
-  const { language, toggleLanguage } = useLanguage();
+function Sidebar({ isOpen, onClose }) {
   const location = useLocation();
+  const { language, toggleLanguage } = useLanguage();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    toggleScrollbar(isOpen);
-    return () => {
-      cleanupScrollbar();
-    };
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => {
+        setIsVisible(false);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
   }, [isOpen]);
 
-  useEffect(() => {
-    onClose();
-  }, [location]);
+  const menuItems = [
+    { icon: faHome, label: "Home", path: "/" },
+    { icon: faFilm, label: "Movie", path: "/movie" },
+    { icon: faRandom, label: "Random", path: "/random" },
+    { icon: faStar, label: "Popular", path: "/most-popular" },
+    { icon: faHistory, label: "History", path: "/history" },
+  ];
 
   return (
     <>
       {isOpen && (
         <div
-          className={`fixed top-0 left-0 bottom-0 right-0 w-screen h-screen transform transition-all duration-400 ease-in-out ${
-            isOpen ? "backdrop-blur-lg" : "backdrop-blur-none"
-          }`}
+          className="fixed top-0 left-0 bottom-0 right-0 w-screen h-screen transform transition-all duration-400 ease-in-out backdrop-blur-lg"
           onClick={onClose}
-          style={{ zIndex: 1000000, background: "rgba(32, 31, 49, .8)" }}
+          style={{ zIndex: 1000000, background: "rgba(17, 16, 23, 0.8)" }}
         />
       )}
-
       <div
-        className={`fixed h-full top-0 left-0 z-50 flex transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 w-64 h-screen bg-devilish-dark/90 backdrop-blur-md transform transition-transform duration-300 ease-in-out z-[1000001] ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-        style={{ zIndex: 1000200 }}
+        } ${isVisible ? "opacity-100" : "opacity-0"}`}
       >
-        <div
-          className="bg-white/10 w-[260px] py-8 h-full flex flex-col items-start max-[575px]:w-56 overflow-y-auto sidebar"
-          style={{
-            zIndex: 300,
-            borderRight: "1px solid rgba(0, 0, 0, .1)",
-          }}
-        >
-          <div className="px-4 w-full">
+        <div className="flex flex-col h-full p-4">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold devilish-gradient-text">Menu</h2>
             <button
               onClick={onClose}
-              className="w-full text-white flex items-baseline h-fit gap-x-1 z-[100] px-3 py-2 bg-[#4f4d6e] rounded-3xl"
+              className="text-foreground/80 hover:text-devilish-crimson transition-colors duration-300 hover:rotate-90 transform"
             >
-              <FaChevronLeft className="text-sm font-bold" />
-              <p>Close menu</p>
+              <FontAwesomeIcon icon={faTimes} className="text-xl" />
             </button>
           </div>
-          <div className="flex gap-x-7 w-full py-3 justify-center px-auto mt-8 bg-black/10 max-[575px]:gap-x-4 lg:hidden">
-            {[
-              { icon: faRandom, label: "Random" },
-              { icon: faFilm, label: "Movie" },
-            ].map((item, index) => (
+
+          <div className="flex flex-col gap-4">
+            {menuItems.map((item) => (
               <Link
-                to={`/${item.label}`}
-                key={index}
-                className="flex flex-col gap-y-1 items-center"
+                key={item.path}
+                to={item.path}
+                onClick={onClose}
+                className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 group hover:bg-devilish-darker/50 ${
+                  location.pathname === item.path
+                    ? "bg-devilish-darker/50 text-devilish-crimson"
+                    : "text-foreground/80"
+                }`}
               >
                 <FontAwesomeIcon
                   icon={item.icon}
-                  className="text-[#ffbade] text-xl font-bold max-[575px]:text-[15px]"
+                  className={`text-xl transition-all duration-300 group-hover:scale-110 ${
+                    location.pathname === item.path
+                      ? "text-devilish-crimson"
+                      : "text-foreground/80"
+                  }`}
                 />
-                <p className="text-[15px] max-[575px]:text-[13px]">
-                  {item.label}
-                </p>
+                <span className="text-lg font-medium">{item.label}</span>
               </Link>
             ))}
-            <div className="flex flex-col gap-y-1 items-center w-auto justify-center">
-              <div className="flex">
-                {["EN", "JP"].map((lang, index) => (
-                  <button
-                    key={lang}
-                    onClick={() => toggleLanguage(lang)}
-                    className={`px-1 py-[1px] text-xs font-bold ${
-                      index === 0 ? "rounded-l-[3px]" : "rounded-r-[3px]"
-                    } ${
-                      language === lang
-                        ? "bg-[#ffbade] text-black"
-                        : "bg-gray-600 text-white"
-                    } max-[575px]:text-[9px] max-[575px]:py-0`}
-                  >
-                    {lang}
-                  </button>
-                ))}
-              </div>
-              <div className="w-full">
-                <p className="whitespace-nowrap text-[15px] max-[575px]:text-[13px]">
-                  Anime name
-                </p>
-              </div>
-            </div>
-          </div>
-          <ul className="text-white mt-8 w-full">
-            {[
-              { name: "Home", path: "/home" },
-              { name: "Subbed Anime", path: "/subbed-anime" },
-              { name: "Dubbed Anime", path: "/dubbed-anime" },
-              { name: "Most Popular", path: "/most-popular" },
-              { name: "Movies", path: "/movie" },
-              { name: "TV Series", path: "/tv" },
-              { name: "OVAs", path: "/ova" },
-              { name: "ONAs", path: "/ona" },
-              { name: "Specials", path: "/special" },
-              {
-                name: "Join Telegram",
-                path: "https://t.me/zenime_discussion",
-              },
-            ].map((item, index) => (
-              <li
-                key={index}
-                className="py-4 w-full font-semibold"
-                style={{ borderBottom: "1px solid rgba(255, 255, 255, .08)" }}
+
+            <button
+              onClick={toggleLanguage}
+              className={`flex items-center gap-3 p-3 rounded-lg transition-all duration-300 group hover:bg-devilish-darker/50 ${
+                language === "EN"
+                  ? "bg-devilish-darker/50 text-devilish-crimson"
+                  : "text-foreground/80"
+              }`}
+            >
+              <span
+                className={`text-xl transition-all duration-300 group-hover:scale-110 ${
+                  language === "EN"
+                    ? "text-devilish-crimson"
+                    : "text-foreground/80"
+                }`}
               >
-                <Link
-                  to={item.path}
-                  className="px-4 hover:text-[#ffbade] hover:cursor-pointer w-fit line-clamp-1"
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+                {language === "EN" ? "EN" : "JP"}
+              </span>
+              <span className="text-lg font-medium">
+                {language === "EN" ? "English" : "日本語"}
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </>
   );
-};
+}
 
 export default Sidebar;

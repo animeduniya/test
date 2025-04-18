@@ -116,8 +116,7 @@ export const useWatch = (animeId, initialEpisodeId) => {
       try {
         const data = await getServers(animeId, episodeId);
         const filteredServers = data?.filter(
-          (server) =>
-            server.serverName === "HD-1" || server.serverName === "HD-2"
+          (server) => server.serverName === "HD-2"
         );
         const savedServerName = localStorage.getItem("server_name");
         const savedServerType = localStorage.getItem("server_type");
@@ -135,15 +134,10 @@ export const useWatch = (animeId, initialEpisodeId) => {
           );
         }
         if (!initialServer) {
-          initialServer =
-            data.find(
-              (server) =>
-                server.type === savedServerType && server.serverName === "HD-1"
-            ) ||
-            data.find(
-              (server) =>
-                server.type === savedServerType && server.serverName === "HD-2"
-            );
+          initialServer = data.find(
+            (server) =>
+              server.type === savedServerType && server.serverName === "HD-2"
+          );
         }
         if (!initialServer) {
           initialServer = filteredServers[0];

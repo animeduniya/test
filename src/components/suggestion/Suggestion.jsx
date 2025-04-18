@@ -1,113 +1,146 @@
-import getSearchSuggestion from "@/src/utils/getSearchSuggestion.utils";
 import { useEffect, useState } from "react";
-import BouncingLoader from "../ui/bouncingloader/Bouncingloader";
+import { Link, useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import getSearch from "@/src/utils/getSearch.utils";
 
-function Suggestion({ keyword, className }) {
-  const [suggestion, setSuggestion] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+function Suggestion({ keyword, suggestionRefs, setIsFocused }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [hasFetched, setHasFetched] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchSearchSuggestion = async () => {
-      if (!keyword) return;
-      setLoading(true);
-      setHasFetched(false);
-      try {
-        const data = await getSearchSuggestion(keyword);
-        setSuggestion(data);
-        setHasFetched(true);
-      } catch (err) {
-        console.error("Error fetching search suggestion info:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
+    const fetchData = async () => {
+      if (keyword.trim()) {
+        setLoading(true);
+        try {
+          const response = await getSearch(keyword, 1);
+          setData(response.data.slice(0, 5));
+          setHasFetched(true);
+        } catch (error) {
+          console.error("Error fetching suggestions:", error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        setData([]);
+        setHasFetched(false);
       }
     };
-    fetchSearchSuggestion();
+
+    const debounceTimer = setTimeout(fetchData, 300);
+    return () => clearTimeout(debounceTimer);
   }, [keyword]);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!data.length) return;
+
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          setSelectedIndex(prev => 
+            prev < data.length - 1 ? prev + 1 : prev
+          );
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelectedIndex(prev => prev > -1 ? prev - 1 : prev);
+          break;
+        case "Enter":
+          e.preventDefault();
+          if (selectedIndex >= 0 && selectedIndex < data.length) {
+            const selectedItem = data[selectedIndex];
+            navigate(`/watch/${selectedItem.id}`);
+            setIsFocused(false);
+          }
+          break;
+        default:
+          break;
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [data, selectedIndex, navigate, setIsFocused]);
+
+  if (loading) {
+    return (
+      <div className="w-full py-4 flex justify-center items-center">
+        <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-devilish-crimson"></div>
+      </div>
+    );
+  }
+
+  if (!hasFetched || data.length === 0) {
+    return null;
+  }
+
   return (
-    <div
-      className={`bg-[#2d2b44] ${className} flex ${
-        loading ? "justify-center py-7" : "justify-start"
-      } ${!suggestion ? "p-3" : "justify-start"} items-center`}
-      style={{ boxShadow: "0 20px 20px rgba(0, 0, 0, .3)" }}
-    >
-      {loading ? (
-        <BouncingLoader />
-      ) : error && !suggestion ? (
-        <div>Error loading suggestions</div>
-      ) : suggestion && hasFetched ? (
-        <div className="w-full flex flex-col pt-2 overflow-y-auto">
-          {suggestion.map((item, index) => (
-            <Link
-              to={`/${item.id}`}
-              key={index}
-              className="group py-2 flex items-start gap-x-3 hover:bg-[#3c3a5e] cursor-pointer px-[10px]"
-              style={{
-                borderBottom:
-                  index === suggestion.length - 1
-                    ? "none"
-                    : "1px dashed rgba(255, 255, 255, .075)",
-              }}
-            >
-              <img
-                src={`https://wsrv.nl/?url=${item.poster}`}
-                className="w-[50px] h-[75px] flex-shrink-0 object-cover"
-                alt=""
-                onError={(e) => {
-                  e.target.src = "https://i.postimg.cc/HnHKvHpz/no-avatar.jpg";
-                }}
-              />
-              <div className="flex flex-col gap-y-[2px]">
-                {item?.title && (
-                  <h1 className="line-clamp-1 leading-5 font-bold text-[15px] group-hover:text-[#ffbade]">
-                    {item.title || "N/A"}
-                  </h1>
-                )}
-                {item?.japanese_title && (
-                  <h1 className="line-clamp-1 leading-5 text-[13px] font-light text-[#aaaaaa]">
-                    {item.japanese_title || "N/A"}
-                  </h1>
-                )}
-                {(item?.releaseDate || item?.showType || item?.duration) && (
-                  <div className="flex gap-x-[5px] items-center w-full justify-start mt-[4px]">
-                    <p className="leading-5 text-[13px] font-light text-[#aaaaaa]">
-                      {item.releaseDate || "N/A"}
-                    </p>
-                    <span className="dot"></span>
-                    <p className="leading-5 text-[13px] font-medium group-hover:text-[#ffbade]">
-                      {item.showType || "N/A"}
-                    </p>
-                    <span className="dot"></span>
-                    <p className="leading-5 text-[13px] font-light text-[#aaaaaa]">
-                      {item.duration || "N/A"}
-                    </p>
-                  </div>
-                )}
-              </div>
-            </Link>
-          ))}
-          {!loading && hasFetched && (
-            <Link
-              className="w-full flex py-4 justify-center items-center bg-[#ffbade]"
-              to={`/search?keyword=${encodeURIComponent(keyword)}`}
-            >
-              <div className="flex w-fit items-center gap-x-2">
-                <p className="text-[17px] font-light text-black">
-                  View all results
-                </p>
-                <FaChevronRight className="text-black text-[12px] font-black mt-[2px]" />
-              </div>
-            </Link>
+    <div className="w-full">
+      {data.map((item, index) => (
+        <Link
+          key={index}
+          to={`/watch/${item.id}`}
+          ref={(el) => (suggestionRefs.current[index] = el)}
+          className={`flex gap-x-4 items-start p-4 hover:bg-devilish-darker/80 transition-colors duration-300 group ${
+            index === selectedIndex ? "bg-devilish-darker/80" : ""
+          }`}
+          onClick={() => setIsFocused(false)}
+        >
+          {item.poster && (
+            <img
+              src={item.poster}
+              alt={item.title}
+              className="w-12 h-16 object-cover rounded-md"
+            />
           )}
-        </div>
-      ) : hasFetched ? (
-        <p className="text-[17px]">No results found!</p>
-      ) : null}
+          <div className="flex flex-col gap-y-[2px]">
+            {item?.title && (
+              <h1 className={`line-clamp-1 leading-5 font-bold text-[15px] ${
+                index === selectedIndex ? "text-devilish-crimson" : ""
+              } group-hover:text-devilish-crimson transition-colors duration-300`}>
+                {item.title || "N/A"}
+              </h1>
+            )}
+            {item?.japanese_title && (
+              <h1 className="line-clamp-1 leading-5 text-[13px] font-light text-foreground/60">
+                {item.japanese_title || "N/A"}
+              </h1>
+            )}
+            {(item?.releaseDate || item?.showType || item?.duration) && (
+              <div className="flex gap-x-[5px] items-center w-full justify-start mt-[4px]">
+                <p className="leading-5 text-[13px] font-light text-foreground/60">
+                  {item.releaseDate || "N/A"}
+                </p>
+                <span className="dot bg-foreground/60"></span>
+                <p className="leading-5 text-[13px] font-medium group-hover:text-devilish-crimson transition-colors duration-300">
+                  {item.showType || "N/A"}
+                </p>
+                <span className="dot bg-foreground/60"></span>
+                <p className="leading-5 text-[13px] font-light text-foreground/60">
+                  {item.duration || "N/A"}
+                </p>
+              </div>
+            )}
+          </div>
+        </Link>
+      ))}
+      {!loading && hasFetched && (
+        <Link
+          className="w-full flex py-4 justify-center items-center bg-devilish-crimson hover:bg-devilish-crimson/90 transition-colors duration-300"
+          to={`/search?keyword=${encodeURIComponent(keyword)}`}
+          onClick={() => setIsFocused(false)}
+        >
+          <div className="flex w-fit items-center gap-x-2">
+            <p className="text-[17px] font-light text-white">
+              View all results
+            </p>
+            <FaChevronRight className="text-white text-[12px] font-black mt-[2px]" />
+          </div>
+        </Link>
+      )}
     </div>
   );
 }

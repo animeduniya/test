@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import "./SplashScreen.css";
 import logoTitle from "@/src/config/logoTitle";
@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleArrowRight,
   faMagnifyingGlass,
+  faFire,
+  faSkull,
 } from "@fortawesome/free-solid-svg-icons";
 import getTopSearch from "@/src/utils/getTopSearch.utils";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedRune from '../animated-rune/AnimatedRune';
 
 // Static data moved outside the component
 const NAV_LINKS = [
@@ -30,153 +34,204 @@ const useTopSearch = () => {
   return topSearch;
 };
 
-function SplashScreen() {
+const SplashScreen = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [showRune, setShowRune] = useState(true);
   const topSearch = useTopSearch();
 
-  const handleSearchSubmit = useCallback(() => {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleRuneComplete = () => {
+    setShowRune(false);
+  };
+
+  if (showRune) {
+    return <AnimatedRune onComplete={handleRuneComplete} />;
+  }
+
+  const handleSearchSubmit = () => {
     const trimmedSearch = search.trim();
     if (!trimmedSearch) return;
     const queryParam = encodeURIComponent(trimmedSearch);
     navigate(`/search?keyword=${queryParam}`);
-  }, [search, navigate]);
+  };
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === "Enter") {
-        handleSearchSubmit();
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit();
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+        staggerChildren: 0.2
       }
-    },
-    [handleSearchSubmit]
-  );
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  const flameVariants = {
+    animate: {
+      scale: [1, 1.2, 1],
+      opacity: [0.3, 0.5, 0.3],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const skullVariants = {
+    animate: {
+      y: [0, -20, 0],
+      rotate: [0, 180, 360],
+      transition: {
+        duration: 10,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
 
   return (
-    <div className="w-full">
-      <div className="w-[1300px] mx-auto pt-12 relative overflow-hidden max-[1350px]:w-full max-[1350px]:px-8 max-[1200px]:pt-8 max-[1200px]:min-h-fit max-[780px]:px-4 max-[520px]:px-0 max-[520px]:pt-6">
-        <nav className="relative w-full">
-          <div className="w-fit flex gap-x-12 mx-auto font-semibold max-[780px]:hidden">
-            {NAV_LINKS.map((link) => (
-              <Link key={link.to} to={link.to} className="hover:text-[#ffbade]">
-                {link.label}
-              </Link>
-            ))}
-          </div>
+    <motion.div
+      className="devilish-dark min-h-screen flex flex-col items-center justify-center relative overflow-hidden"
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      {/* Animated flames */}
+      <motion.div
+        className="flame"
+        style={{
+          width: '100%',
+          height: '100px',
+          left: '20%'
+        }}
+        variants={flameVariants}
+        animate="animate"
+      />
+      <motion.div
+        className="flame"
+        style={{
+          width: '80%',
+          height: '80px',
+          right: '20%'
+        }}
+        variants={flameVariants}
+        animate="animate"
+      />
 
-          <div className="max-[780px]:block hidden max-[520px]:px-4 max-[520px]:text-sm">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="p-2 focus:outline-none flex items-center gap-x-2 transition-colors duration-200 group"
-            >
-              <svg
-                className="w-6 h-6 text-white transition-colors duration-200 max-[520px]:w-5 max-[520px]:h-5 group-hover:text-[#ffbade] group-focus:text-[#ffbade] group-active:text-[#ffbade]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              <span className="text-white font-semibold transition-colors duration-200 group-hover:text-[#ffbade] group-focus:text-[#ffbade] group-active:text-[#ffbade]">
-                Menu
-              </span>
-            </button>
-          </div>
+      {/* Floating skulls */}
+      <motion.div
+        className="skull"
+        style={{ left: '10%', top: '20%' }}
+        variants={skullVariants}
+        animate="animate"
+      >
+        <FontAwesomeIcon icon={faSkull} size="2x" />
+      </motion.div>
+      <motion.div
+        className="skull"
+        style={{ right: '15%', top: '40%' }}
+        variants={skullVariants}
+        animate="animate"
+      >
+        <FontAwesomeIcon icon={faSkull} size="2x" />
+      </motion.div>
 
-          {isModalOpen && (
-            <div className="max-[780px]:block w-full hidden absolute z-50 top-10">
-              <div className="bg-[#101010fa] w-full p-6 rounded-2xl flex flex-col gap-y-6 items-center">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="self-end text-black text-xl absolute top-0 right-0 bg-white px-3 py-1 rounded-tr-xl rounded-bl-xl font-bold"
-                >
-                  &times;
-                </button>
-                {NAV_LINKS.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setIsModalOpen(false)}
-                    className="hover:text-[#ffbade] text-white text-lg"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </nav>
+      <motion.h1
+        className="devilish-gradient-text text-6xl font-bold mb-8"
+        variants={itemVariants}
+      >
+        {logoTitle}
+      </motion.h1>
 
-        <div className="splashscreen min-h-[480px] min-[1200px]:min-h-[520px] bg-[#2B2A3C] rounded-[40px] flex relative mt-7 max-[780px]:w-full items-stretch max-[780px]:rounded-[30px] max-[520px]:rounded-none max-[520px]:min-h-fit max-[520px]:pb-4 max-[520px]:mt-4">
-          <div className="h-auto flex flex-col w-[700px] relative z-40 px-20 py-20 left-0 max-[1200px]:py-12 max-[780px]:px-12 max-[520px]:py-4 max-[520px]:px-8">
-            <Link
-              to="/home"
-              className="text-[45px] font-extrabold tracking-wide max-[520px]:text-[38px] max-[520px]:text-center"
-            >
-              {logoTitle.slice(0, 3)}
-              <span className="text-[#FFBADE]">{logoTitle.slice(3, 4)}</span>
-              {logoTitle.slice(4)}
-            </Link>
-            <div className="w-full flex gap-x-3 mt-6">
-              <input
-                type="text"
-                placeholder="Search anime..."
-                className="w-full py-3 px-6 rounded-xl bg-white text-[18px] text-black"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onKeyDown={handleKeyDown}
-              />
-              <button
-                className="bg-[#FFBADE] text-white py-3 px-4 rounded-xl font-extrabold"
-                onClick={handleSearchSubmit}
-              >
-                <FontAwesomeIcon
-                  icon={faMagnifyingGlass}
-                  className="text-lg text-black hover:text-[#ffbade] max-[600px]:mt-[7px]"
-                />
-              </button>
-            </div>
-            <div className="mt-8 text-[15px] leading-[1.6] max-[520px]:text-[13px] max-[520px]:leading-[1.4]">
-              <span className="splashitem font-[600]">Top search: </span>
-              {topSearch.map((item, index) => (
-                <span key={index} className="splashitem font-[400]">
-                  <Link to={item.link}>{item.title}</Link>
-                  {index < topSearch.length - 1 && <span>, </span>}
-                </span>
-              ))}
-            </div>
-            <div className="mt-8 flex max-[780px]:left-10">
-              <Link to="/home" className="max-[520px]:w-full">
-                <div className="bg-[#FFBADE] text-black py-4 px-10 rounded-xl font-bold text-[20px] max-[520px]:text-center max-[520px]:font-medium max-[520px]:text-[17px]">
-                  Watch anime
-                  <FontAwesomeIcon
-                    icon={faCircleArrowRight}
-                    className="ml-6 text-black"
-                  />
-                </div>
-              </Link>
-            </div>
-          </div>
-          <div className="h-full w-[600px] absolute right-0 max-[780px]:hidden">
-            <div className="splashoverlay"></div>
-            <img
-              src="/splash.webp"
-              alt="Splash"
-              className="bg-cover rounded-r-[40px] w-full h-full object-cover"
+      <motion.div
+        className="flex flex-col items-center space-y-4"
+        variants={itemVariants}
+      >
+        <Link
+          to="/home"
+          className="enter-button bg-red-600 text-white px-8 py-3 rounded-lg text-xl font-semibold hover:bg-red-700 transition-colors"
+        >
+          Enter
+        </Link>
+
+        <motion.button
+          className="search-button bg-gray-800 text-white px-6 py-2 rounded-lg flex items-center space-x-2 hover:bg-gray-700 transition-colors"
+          onClick={() => setShowSearch(!showSearch)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          <span>Search</span>
+        </motion.button>
+      </motion.div>
+
+      <AnimatePresence>
+        {showSearch && (
+          <motion.div
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 p-6 rounded-lg shadow-xl"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            <input
+              type="text"
+              placeholder="Search anime..."
+              className="search-input bg-gray-800 text-white px-4 py-2 rounded-lg w-64 focus:outline-none"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={handleKeyDown}
             />
-          </div>
-        </div>
-      </div>
-      <div className="mt-10 text-[14px] text-center pb-4">
-        © {logoTitle} All rights reserved.
-      </div>
-    </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        className="absolute bottom-8 flex space-x-6"
+        variants={itemVariants}
+      >
+        <Link to="/about" className="nav-link text-white hover:text-red-500 transition-colors">
+          About
+        </Link>
+        <Link to="/random" className="nav-link text-white hover:text-red-500 transition-colors">
+          Random
+        </Link>
+        <Link to="/movie" className="nav-link text-white hover:text-red-500 transition-colors">
+          Movie
+        </Link>
+        <Link to="/most-popular" className="nav-link text-white hover:text-red-500 transition-colors">
+          Popular
+        </Link>
+      </motion.div>
+    </motion.div>
   );
 }
 

@@ -42,6 +42,12 @@ const KEY_CODES = {
   ARROW_LEFT: "arrowleft",
 };
 
+// Chromecast icon SVG
+const chromecastIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 16.1A5 5 0 0 1 5.9 20M2 12.05A9 9 0 0 1 9.95 20M2 8V6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-6" />
+  <line x1="2" y1="20" x2="2.01" y2="20" />
+</svg>`;
+
 export default function Player({
   streamUrl,
   subtitles,
@@ -75,6 +81,7 @@ export default function Player({
       setCurrentEpisodeIndex(newIndex);
     }
   }, [episodeId, episodes]);
+  
   useEffect(() => {
     const applyChapterStyles = () => {
       const existingStyles = document.querySelectorAll(
@@ -107,9 +114,6 @@ export default function Player({
 
       art.on("destroy", () => hls.destroy());
 
-      // hls.on(Hls.Events.ERROR, (event, data) => {
-      //   console.error("HLS.js error:", data);
-      // });
       video.addEventListener("timeupdate", () => {
         const currentTime = Math.round(video.currentTime);
         const duration = Math.round(video.duration);
@@ -205,6 +209,141 @@ export default function Player({
         break;
       default:
         break;
+    }
+  };
+
+  // Initialize Chromecast
+  const initializeChromecast = () => {
+    if (!window.chrome || !window.chrome.cast || !window.chrome.cast.isAvailable) {
+      window.__onGCastApiAvailable = (isAvailable) => {
+        if (isAvailable) {
+          initializeCastApi();
+        }
+      };
+
+      const script = document.createElement("script");
+      script.src = "https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1";
+      document.head.appendChild(script);
+    } else {
+      initializeCastApi();
+    }
+  };
+
+  const initializeCastApi = () => {
+    try {
+      // Use a custom receiver app ID that supports HLS
+      const sessionRequest = new chrome.cast.SessionRequest(
+        chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+      );
+      const apiConfig = new chrome.cast.ApiConfig(
+        sessionRequest,
+        sessionListener,
+        receiverListener
+      );
+      chrome.cast.initialize(apiConfig, onInitSuccess, onInitError);
+    } catch (error) {
+      console.error("Error initializing Cast API:", error);
+    }
+  };
+
+  const onInitSuccess = () => {
+    console.log("Cast API initialized successfully");
+  };
+
+  const onInitError = (error) => {
+    console.error("Error initializing Cast API:", error);
+  };
+
+  const sessionListener = (session) => {
+    console.log("New cast session:", session);
+  };
+
+  const receiverListener = (availability) => {
+    if (availability === chrome.cast.ReceiverAvailability.AVAILABLE) {
+      console.log("Cast receiver available");
+    } else {
+      console.log("Cast receiver not available");
+    }
+  };
+
+  const startCasting = (art) => {
+    if (!window.chrome || !window.chrome.cast || !window.chrome.cast.isAvailable) {
+      console.log("Cast API not available");
+      return;
+    }
+
+    try {
+      chrome.cast.requestSession(
+        (session) => {
+          console.log("Cast session established:", session);
+          
+          // Get the current media URL
+          let mediaUrl = streamUrl;
+          let contentType = "application/x-mpegURL";
+          
+          // Check if we have a direct MP4 URL available
+          if (streamInfo?.sources?.find(source => source.quality === "default" && source.url.includes('.mp4'))) {
+            const mp4Source = streamInfo.sources.find(source => source.quality === "default");
+            mediaUrl = mp4Source.url;
+            contentType = "video/mp4";
+          }
+          // If not, use the proxy URL for HLS
+          else {
+            const proxyUrl = m3u8proxy[Math.floor(Math.random() * m3u8proxy?.length)];
+            const headers = {};
+            
+            if (streamInfo?.streamingLink?.iframe) {
+              const iframeUrl = streamInfo.streamingLink.iframe;
+              const url = new URL(iframeUrl);
+              headers.Referer = url.origin + "/";
+            } else {
+              headers.Referer = "https://megacloud.club/";
+            }
+            
+            mediaUrl = proxyUrl + encodeURIComponent(streamUrl) + "&headers=" + encodeURIComponent(JSON.stringify(headers));
+          }
+          
+          console.log("Final media URL for casting:", mediaUrl);
+          
+          // Create media info with proper metadata
+          const mediaInfo = new chrome.cast.media.MediaInfo(mediaUrl, contentType);
+          mediaInfo.metadata = new chrome.cast.media.GenericMediaMetadata();
+          mediaInfo.metadata.title = animeInfo?.title || "Anime Episode";
+          mediaInfo.metadata.subtitle = `Episode ${episodeNum}`;
+          
+          // Set stream type based on content
+          mediaInfo.streamType = chrome.cast.media.StreamType.LIVE;
+          
+          // Add text tracks for subtitles if available
+          if (subtitles && subtitles.length > 0) {
+            mediaInfo.textTrackStyle = new chrome.cast.media.TextTrackStyle();
+            mediaInfo.tracks = subtitles.map((sub, index) => {
+              const track = new chrome.cast.media.Track(index, chrome.cast.media.TrackType.TEXT);
+              track.trackContentId = sub.file;
+              track.trackContentType = "text/vtt";
+              track.subtype = chrome.cast.media.TextTrackType.SUBTITLES;
+              track.name = sub.label;
+              track.language = sub.language || "en";
+              return track;
+            });
+          }
+          
+          // Create load request
+          const request = new chrome.cast.media.LoadRequest(mediaInfo);
+          request.currentTime = art.currentTime;
+          request.autoplay = true;
+          
+          // Load media
+          session.loadMedia(request)
+            .then(() => console.log("Media loaded successfully"))
+            .catch(error => console.error("Error loading media:", error));
+        },
+        (error) => {
+          console.error("Error requesting cast session:", error);
+        }
+      );
+    } catch (error) {
+      console.error("Error in cast button click handler:", error);
     }
   };
 
@@ -368,6 +507,15 @@ export default function Player({
             art.currentTime = Math.min(art.currentTime + 10, art.duration);
           },
         },
+        {
+          name: "chromecast",
+          position: "right",
+          tooltip: "Cast to device",
+          html: chromecastIcon,
+          click: () => {
+            startCasting(art);
+          },
+        },
       ],
       icons: {
         play: playIcon,
@@ -484,6 +632,9 @@ export default function Player({
             art.layers["forwardIcon"].style.opacity = 0;
           }, 300);
         });
+      
+      // Initialize Chromecast
+      initializeChromecast();
     });
     return () => {
       if (art && art.destroy) {

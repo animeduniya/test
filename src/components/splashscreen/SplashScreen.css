@@ -27,3 +27,176 @@
   );
   z-index: 30;
 }
+
+.devilish-gradient-text {
+  background: linear-gradient(45deg, #ff0000, #ff6b6b, #ff0000);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient 3s ease infinite;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Devilish background effects */
+.devilish-dark {
+  background: radial-gradient(circle at center, #1a1a1a 0%, #000000 100%);
+  position: relative;
+}
+
+.devilish-dark::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 0, 0, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Animated flames effect */
+.flame {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(255, 0, 0, 0.3), transparent);
+  border-radius: 50% 50% 0 0;
+  transform-origin: bottom center;
+  animation: flicker 2s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 100% {
+    transform: scaleY(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scaleY(1.2);
+    opacity: 0.5;
+  }
+}
+
+/* Floating skulls effect */
+.skull {
+  position: absolute;
+  color: rgba(255, 0, 0, 0.2);
+  animation: float 10s infinite ease-in-out;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+}
+
+/* Button hover effects */
+.enter-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.enter-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.enter-button:hover::before {
+  left: 100%;
+}
+
+/* Search input glow effect */
+.search-input:focus {
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Navigation link hover effect */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ff0000;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Modal animation */
+.modal-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.modal-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Responsive adjustments */
+@media (max-width: 780px) {
+  .devilish-gradient-text {
+    font-size: 2.5rem;
+  }
+  
+  .flame {
+    height: 60px;
+  }
+}
+
+@media (max-width: 520px) {
+  .devilish-gradient-text {
+    font-size: 2rem;
+  }
+  
+  .flame {
+    height: 40px;
+  }
+}

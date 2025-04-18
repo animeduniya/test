@@ -39,17 +39,17 @@ const ContinueWatching = () => {
     <div className="mt-6 max-[1200px]:px-6 max-md:px-0">
       <div className="flex items-center justify-between max-md:pl-4">
         <div className="flex items-center gap-x-2 justify-center">
-          <FaHistory className="text-[#ffbade]" />
-          <h1 className="text-[#ffbade] text-2xl font-bold max-[450px]:text-xl max-[450px]:mb-1 max-[350px]:text-lg">
+          <FaHistory className="text-devilish-crimson" />
+          <h1 className="text-devilish-crimson text-2xl font-bold max-[450px]:text-xl max-[450px]:mb-1 max-[350px]:text-lg">
             Continue Watching
           </h1>
         </div>
 
         <div className="flex gap-x-2 pr-2 max-[350px]:hidden">
-          <button className="btn-prev bg-gray-700 text-white p-3 rounded-full hover:bg-gray-500 transition max-[768px]:p-2">
+          <button className="btn-prev bg-devilish-darker text-white p-3 rounded-full hover:bg-devilish-crimson transition max-[768px]:p-2">
             <FaChevronLeft className="text-xs" />
           </button>
-          <button className="btn-next bg-gray-700 text-white p-3 rounded-full hover:bg-gray-500 transition max-[768px]:p-2">
+          <button className="btn-next bg-devilish-darker text-white p-3 rounded-full hover:bg-devilish-crimson transition max-[768px]:p-2">
             <FaChevronRight className="text-xs" />
           </button>
         </div>
@@ -89,7 +89,7 @@ const ContinueWatching = () => {
 
                 <Link
                   to={`/watch/${item?.id}?ep=${item.episodeId}`}
-                  className="inline-block bg-[#2a2c31] absolute left-0 top-0 w-full h-full group"
+                  className="inline-block bg-devilish-darker absolute left-0 top-0 w-full h-full group"
                 >
                   <img
                     src={`https://wsrv.nl/?url=${item?.poster}`}
@@ -106,7 +106,7 @@ const ContinueWatching = () => {
                   </div>
                 </Link>
                 {item?.adultContent === true && (
-                  <div className="text-white px-2 rounded-md bg-[#FF5700] absolute top-2 left-2 flex items-center justify-center text-[14px] font-bold">
+                  <div className="text-white px-2 rounded-md bg-devilish-crimson absolute top-2 left-2 flex items-center justify-center text-[14px] font-bold">
                     18+
                   </div>
                 )}

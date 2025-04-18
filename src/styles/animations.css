@@ -1,0 +1,198 @@
+/* Text Animations */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(255, 0, 51, 0.5),
+                 0 0 20px rgba(255, 0, 51, 0.3),
+                 0 0 30px rgba(255, 0, 51, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 0, 51, 0.8),
+                 0 0 30px rgba(255, 0, 51, 0.6),
+                 0 0 40px rgba(255, 0, 51, 0.4);
+  }
+}
+
+@keyframes textFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Logo Animations */
+@keyframes logoGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(255, 0, 51, 0.5))
+            drop-shadow(0 0 10px rgba(255, 0, 51, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(255, 0, 51, 0.8))
+            drop-shadow(0 0 20px rgba(255, 0, 51, 0.6));
+  }
+}
+
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes logoPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Card Animations */
+@keyframes cardHover {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(255, 0, 51, 0.2);
+  }
+}
+
+@keyframes cardGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 0, 51, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 51, 0.6);
+  }
+}
+
+/* Button Animations */
+@keyframes buttonPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 0, 51, 0.8);
+  }
+}
+
+@keyframes buttonGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
+  }
+}
+
+/* Navigation Animations */
+@keyframes navLinkHover {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(5px);
+  }
+}
+
+/* Animation Classes */
+.animate-text-glow {
+  @apply animate-[text-glow_2s_infinite];
+}
+
+.animate-text-float {
+  @apply animate-[text-float_3s_ease-in-out_infinite];
+}
+
+.animate-text-pulse {
+  @apply animate-[text-pulse_2s_ease-in-out_infinite];
+}
+
+.animate-logo-glow {
+  @apply animate-[logo-glow_2s_infinite];
+}
+
+.animate-logo-float {
+  @apply animate-[logo-float_3s_ease-in-out_infinite];
+}
+
+.animate-logo-pulse {
+  @apply animate-[logo-pulse_2s_ease-in-out_infinite];
+}
+
+.animate-card-hover {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.animate-card-hover:hover {
+  @apply animate-[card-hover_0.3s_forwards];
+}
+
+.animate-card-glow {
+  @apply animate-[card-glow_2s_infinite];
+}
+
+.animate-button-pulse {
+  @apply animate-[button-pulse_2s_infinite];
+}
+
+.animate-button-glow {
+  @apply animate-[button-glow_2s_infinite];
+}
+
+.animate-nav-hover {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.animate-nav-hover:hover {
+  @apply animate-[nav-hover_0.3s_forwards];
+}
+
+/* Epic Logo Styles */
+.epic-logo {
+  @apply relative;
+  filter: drop-shadow(0 0 10px rgba(255, 0, 51, 0.5));
+  transition: all 0.3s ease;
+}
+
+.epic-logo::before {
+  content: '';
+  @apply absolute -top-[5px] -left-[5px] -right-[5px] -bottom-[5px];
+  background: linear-gradient(45deg, #ff0033, #cc0000, #ff3300);
+  @apply -z-10;
+  filter: blur(10px);
+  opacity: 0.7;
+  @apply animate-[logo-glow_2s_infinite];
+}
+
+.epic-logo::after {
+  content: '';
+  @apply absolute inset-0;
+  background: radial-gradient(circle at center, transparent, rgba(255, 0, 51, 0.2));
+  @apply -z-10;
+  @apply animate-[logo-pulse_2s_infinite];
+}
+
+.epic-logo:hover {
+  @apply scale-105 rotate-[2deg];
+  filter: drop-shadow(0 0 20px rgba(255, 0, 51, 0.8));
+} 

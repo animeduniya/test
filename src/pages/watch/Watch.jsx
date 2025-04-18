@@ -21,6 +21,7 @@ import SidecardLoader from "@/src/components/Loader/Sidecard.loader";
 import Voiceactor from "@/src/components/voiceactor/Voiceactor";
 import Watchcontrols from "@/src/components/watchcontrols/Watchcontrols";
 import useWatchControl from "@/src/hooks/useWatchControl";
+import { FaChevronRight } from "react-icons/fa";
 
 export default function Watch() {
   const location = useLocation();
@@ -285,7 +286,7 @@ export default function Watch() {
               />
               {seasons?.length > 0 && (
                 <div className="flex flex-col gap-y-2 bg-[#11101A] p-4">
-                  <h1 className="w-fit text-lg max-[478px]:text-[18px] font-semibold">
+                  <h1 className="font-bold text-2xl text-devilish-crimson max-[478px]:text-[18px] capitalize">
                     Watch more seasons of this anime
                   </h1>
                   <div className="flex flex-wrap gap-4 max-[575px]:grid max-[575px]:grid-cols-3 max-[575px]:gap-3 max-[480px]:grid-cols-2">
@@ -300,10 +301,10 @@ export default function Watch() {
                         } max-[1200px]:w-[140px] max-[575px]:w-full`}
                       >
                         <p
-                          className={`text-[13px] text-center font-bold absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full px-2 z-30 line-clamp-2 group-hover:text-[#ffbade] ${
+                          className={`text-white text-[12px] font-semibold h-fit leading-0 group-hover:text-devilish-crimson transition-all ease-out ${
                             animeId === String(season.id)
                               ? "text-[#ffbade]"
-                              : "text-white"
+                              : ""
                           }`}
                         >
                           {season.season}

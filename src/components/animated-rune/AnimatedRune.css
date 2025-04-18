@@ -1,0 +1,145 @@
+/* AnimatedRune.css */
+.rune-circle {
+  width: 16rem;
+  height: 16rem;
+  border-radius: 50%;
+  border: 4px solid #ff0000;
+  position: relative;
+  transition: all 1s ease;
+}
+
+.bg-infernal-black {
+  background-color: #000000;
+}
+
+.border-infernal-crimson-30 {
+  border-color: rgba(255, 0, 0, 0.3);
+}
+
+.border-infernal-crimson-20 {
+  border-color: rgba(255, 0, 0, 0.2);
+}
+
+.bg-infernal-crimson-10 {
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+.text-white-90 {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.font-ritual {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.05em;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #ff0000, #ff6b6b, #ff0000);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient 3s ease infinite;
+}
+
+.cursor-animated {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #ff0000;
+  margin-left: 2px;
+  animation: blink 1s step-end infinite;
+}
+
+/* Animations */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slow-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.slow-spin {
+  animation: slow-spin 20s linear infinite;
+}
+
+.slow-spin-reverse {
+  animation: slow-spin-reverse 15s linear infinite;
+}
+
+.pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Pentagram background */
+.pentagram-bg {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50,5 L61,40 L98,40 L68,62 L79,95 L50,75 L21,95 L32,62 L2,40 L39,40 Z' fill='none' stroke='rgba(255,0,0,0.2)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 80% 80%;
+  background-position: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .rune-circle {
+    width: 12rem;
+    height: 12rem;
+  }
+  
+  .text-white-90 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .rune-circle {
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .text-white-90 {
+    font-size: 0.875rem;
+  }
+} 

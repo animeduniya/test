@@ -51,15 +51,15 @@ function Topten({ data, className }) {
   return (
     <div className={`flex flex-col space-y-6 ${className}`}>
       <div className="flex justify-between items-center max-[350px]:flex-col max-[350px]:gap-y-2 max-[350px]:items-start">
-        <h1 className="font-bold text-2xl text-[#ffbade]">Top 10</h1>
-        <ul className="flex justify-between w-fit bg-[#373646] rounded-[4px] text-sm font-bold">
+        <h1 className="font-bold text-2xl text-devilish-crimson">Top 10</h1>
+        <ul className="flex justify-between w-fit bg-devilish-darker rounded-[4px] text-sm font-bold">
           {["today", "week", "month"].map((period) => (
             <li
               key={period}
               className={`cursor-pointer p-2 px-3 ${
                 activePeriod === period
-                  ? "bg-[#ffbade] text-[#555462]"
-                  : "text-white hover:text-[#ffbade]"
+                  ? "bg-devilish-crimson text-devilish-darker"
+                  : "text-devilish-light hover:text-devilish-crimson"
               } ${period === "today" ? "rounded-l-[4px]" : ""} ${
                 period === "month" ? "rounded-r-[4px]" : ""
               }`}
@@ -71,7 +71,7 @@ function Topten({ data, className }) {
         </ul>
       </div>
 
-      <div className="flex flex-col space-y-4 bg-[#2B2A3C] p-4 pt-8">
+      <div className="flex flex-col space-y-4 bg-devilish-darker p-4 pt-8">
         {currentData &&
           currentData.map((item, index) => (
             <div
@@ -82,8 +82,8 @@ function Topten({ data, className }) {
               <h1
                 className={`font-bold text-2xl ${
                   index < 3
-                    ? "pb-1 text-white border-b-[3px] border-[#ffbade]"
-                    : "text-[#777682]"
+                    ? "pb-1 text-devilish-light border-b-[3px] border-devilish-crimson"
+                    : "text-devilish-light/60"
                 } max-[350px]:hidden`}
               >
                 {`${index + 1 < 10 ? "0" : ""}${index + 1}`}
@@ -135,14 +135,14 @@ function Topten({ data, className }) {
                 <div className="flex flex-col ml-4 space-y-2">
                   <Link
                     to={`/${item.id}`}
-                    className="text-[1em] font-[500] hover:cursor-pointer hover:text-[#ffbade] transform transition-all ease-out line-clamp-1 max-[478px]:line-clamp-2 max-[478px]:text-[14px]"
+                    className="text-[1em] font-[500] hover:cursor-pointer hover:text-devilish-crimson transform transition-all ease-out line-clamp-1 max-[478px]:line-clamp-2 max-[478px]:text-[14px]"
                     onClick={() => handleNavigate(item.id)}
                   >
                     {language === "EN" ? item.title : item.japanese_title}
                   </Link>
                   <div className="flex flex-wrap items-center w-fit space-x-1 max-[350px]:gap-y-[3px]">
                     {item.tvInfo?.sub && (
-                      <div className="flex space-x-1 justify-center items-center bg-[#B0E3AF] rounded-[4px] px-[4px] text-black py-[2px]">
+                      <div className="flex space-x-1 justify-center items-center bg-devilish-green rounded-[4px] px-[4px] text-devilish-darker py-[2px]">
                         <FontAwesomeIcon
                           icon={faClosedCaptioning}
                           className="text-[12px]"
@@ -153,7 +153,7 @@ function Topten({ data, className }) {
                       </div>
                     )}
                     {item.tvInfo?.dub && (
-                      <div className="flex space-x-1 justify-center items-center bg-[#B9E7FF] rounded-[4px] px-[8px] text-black py-[2px]">
+                      <div className="flex space-x-1 justify-center items-center bg-devilish-blue rounded-[4px] px-[8px] text-devilish-darker py-[2px]">
                         <FontAwesomeIcon
                           icon={faMicrophone}
                           className="text-[12px]"

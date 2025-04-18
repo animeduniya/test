@@ -15,6 +15,7 @@ import Error from "@/src/components/error/Error";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { useHomeInfo } from "@/src/context/HomeInfoContext";
 import Voiceactor from "@/src/components/voiceactor/Voiceactor";
+import { FaChevronRight } from "react-icons/fa";
 
 function InfoItem({ label, value, isProducer = true }) { 
   return (
@@ -183,7 +184,7 @@ function AnimeInfo({ random = false }) {
                 <li key={index} className="flex gap-x-3 items-center">
                   <Link
                     to={`/${link}`}
-                    className="text-white hover:text-[#FFBADE] text-[15px] font-semibold"
+                    className="text-white hover:text-[#ffbade] text-[15px] font-semibold"
                   >
                     {text}
                   </Link>
@@ -227,7 +228,7 @@ function AnimeInfo({ random = false }) {
             </div>
             <Link
               to={`/watch/${animeInfo.id}`}
-              className="flex gap-x-2 px-6 py-2 bg-[#FFBADE] w-fit text-black items-center rounded-3xl mt-5"
+              className="flex gap-x-2 px-6 py-2 bg-devilish-crimson w-fit text-black items-center rounded-3xl mt-5"
             >
               <FontAwesomeIcon icon={faPlay} className="text-[14px] mt-[1px]" />
               <p className="text-lg font-medium">Watch Now</p>
@@ -265,7 +266,7 @@ function AnimeInfo({ random = false }) {
                 className="w-[60px] h-auto rounded-full max-[1024px]:w-[40px]"
               />
               <div className="flex flex-col w-fit">
-                <p className="text-[15px] font-bold text-[#FFBADE]">
+                <p className="text-[15px] font-bold text-[#ffbade]">
                   Share Anime
                 </p>
                 <p className="text-[16px] text-white">to your friends</p>
@@ -307,7 +308,7 @@ function AnimeInfo({ random = false }) {
                     <Link
                       to={`/genre/${genre.split(" ").join("-")}`}
                       key={index}
-                      className="text-[14px] font-semibold px-2 py-[1px] border border-gray-400 rounded-2xl hover:text-[#ffbade]"
+                      className="text-[14px] font-semibold px-2 py-[1px] border border-gray-400 rounded-2xl hover:text-devilish-crimson"
                     >
                       {genre}
                     </Link>
@@ -335,7 +336,7 @@ function AnimeInfo({ random = false }) {
         <div>
           {seasons?.length > 0 && (
             <div className="flex flex-col gap-y-7 mt-8">
-              <h1 className="w-fit text-2xl text-[#ffbade] max-[478px]:text-[18px] font-bold">
+              <h1 className="font-bold text-2xl text-devilish-crimson max-[478px]:text-[18px] capitalize">
                 More Seasons
               </h1>
               <div className="flex flex-wrap gap-4 max-[575px]:grid max-[575px]:grid-cols-3 max-[575px]:gap-3 max-[480px]:grid-cols-2">

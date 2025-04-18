@@ -1,6 +1,9 @@
 .art-subtitle {
   padding-inline: 0px !important;
   gap: 2px !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
 }
 .art-volume-panel {
   padding-bottom: 20px !important;
@@ -24,6 +27,141 @@
   font-weight: inherit !important;
   white-space: inherit !important;
 }
+.art-controls {
+  background: linear-gradient(to top, rgba(15, 15, 15, 0.95), transparent) !important;
+  backdrop-filter: blur(10px);
+}
+.art-control {
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+.art-control:hover {
+  color: #ff0033 !important;
+  transform: scale(1.1) !important;
+}
+.art-progress {
+  height: 4px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+.art-progress .art-progress-loaded {
+  background: #ff0033 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
+}
+.art-progress .art-progress-played {
+  background: #ff0033 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 51, 0.5);
+}
+.art-progress .art-progress-played::after {
+  background: #ff0033 !important;
+  box-shadow: 0 0 10px rgba(255, 0, 51, 0.8);
+  transform: scale(1.2);
+}
+.art-state {
+  background: rgba(26, 26, 26, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+}
+.art-state .art-icon {
+  color: #ff0033 !important;
+}
+
+/* Fix for black screen issue */
+.art-video {
+  background-color: #000 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* Ensure the player container has proper dimensions */
+.artplayer {
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* Chromecast button styles */
+.art-control[name="chromecast"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.art-control[name="chromecast"] svg {
+  width: 24px !important;
+  height: 24px !important;
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+
+.art-control[name="chromecast"]:hover svg {
+  color: #ff0033 !important;
+  transform: scale(1.1) !important;
+}
+
+/* Settings panel styles */
+.art-settings-panel {
+  background: rgba(26, 26, 26, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 0, 51, 0.3) !important;
+}
+
+.art-settings-item {
+  color: #fff !important;
+  transition: all 0.3s ease !important;
+}
+
+.art-settings-item:hover {
+  color: #ff0033 !important;
+  background: rgba(255, 0, 51, 0.1) !important;
+}
+
+/* Chapter markers */
+.art-chapter {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.art-chapter:hover {
+  background: rgba(255, 0, 51, 0.5) !important;
+}
+
+.art-chapter.active {
+  background: #ff0033 !important;
+}
+
+/* Intro/Outro parts */
+.art-chapter-intro {
+  background: rgba(255, 215, 0, 0.3) !important;
+  border-left: 3px solid #ffd700 !important;
+}
+
+.art-chapter-outro {
+  background: rgba(255, 215, 0, 0.3) !important;
+  border-left: 3px solid #ffd700 !important;
+}
+
+/* Chapter tooltip */
+.art-chapter-tooltip {
+  background: rgba(15, 15, 15, 0.95) !important;
+  border: 1px solid #ffd700 !important;
+  color: #ffd700 !important;
+  font-weight: 500 !important;
+  padding: 4px 8px !important;
+  border-radius: 4px !important;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.3) !important;
+}
+
+/* Chapter hover effect */
+.art-chapter:hover {
+  background: rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Chapter active state */
+.art-chapter.active {
+  background: rgba(255, 215, 0, 0.4) !important;
+  border-left: 3px solid #ffd700 !important;
+}
+
 @media screen and (max-width: 370px) {
   .art-progress {
     padding-bottom: 5px !important;

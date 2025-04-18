@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
-import { getImageUrl } from '../utils/corsProxy';
+import React, { useState, useEffect } from 'react';
+import { proxyImage } from '../api/imageProxy';
 
 const Image = ({ src, alt, className, ...props }) => {
+  const [imageUrl, setImageUrl] = useState('');
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const handleError = () => {
-    setError(true);
-    setLoading(false);
-  };
+  useEffect(() => {
+    const loadImage = async () => {
+      try {
+        setLoading(true);
+        const proxiedUrl = await proxyImage(src);
+        setImageUrl(proxiedUrl);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading image:', err);
+        setError(true);
+        setLoading(false);
+      }
+    };
 
-  const handleLoad = () => {
-    setLoading(false);
-  };
+    loadImage();
+  }, [src]);
 
   if (error) {
     return (
@@ -28,10 +37,9 @@ const Image = ({ src, alt, className, ...props }) => {
         <div className="absolute inset-0 bg-gray-800 animate-pulse" />
       )}
       <img
-        src={getImageUrl(src)}
+        src={imageUrl}
         alt={alt}
-        onError={handleError}
-        onLoad={handleLoad}
+        onError={() => setError(true)}
         className={`${className} ${loading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         {...props}
       />

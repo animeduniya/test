@@ -7,12 +7,12 @@ export const proxyConfig = {
       '^/api': '/api'
     }
   },
-  '/images': {
-    target: 'https://wsrv.nl',
+  '/proxy-image': {
+    target: 'https://opapi-lyart.vercel.app',
     changeOrigin: true,
     secure: false,
     pathRewrite: {
-      '^/images': ''
+      '^/proxy-image': ''
     },
     headers: {
       'Access-Control-Allow-Origin': '*',

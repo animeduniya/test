@@ -10,13 +10,14 @@ import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/src/context/LanguageContext";
 import "./Banner.css";
+import { getProxiedImageUrl } from "@/src/utils/imageUtils";
 
 function Banner({ item, index }) {
   const { language } = useLanguage();
   return (
     <section className="spotlight w-full h-full">
       <img
-        src={`https://wsrv.nl/?url=${item.poster}`}
+        src={getProxiedImageUrl(item.poster)}
         alt={item.title}
         className="absolute right-0 object-cover h-full w-[80%] bg-auto max-[1200px]:w-full max-[1200px]:bottom-0"
       />

@@ -8,11 +8,16 @@ export const proxyConfig = {
     }
   },
   '/images': {
-    target: 'https://api.allorigins.win',
+    target: 'https://wsrv.nl',
     changeOrigin: true,
     secure: false,
     pathRewrite: {
-      '^/images': '/raw'
+      '^/images': ''
+    },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     }
   }
 }; 

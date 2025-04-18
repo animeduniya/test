@@ -7,16 +7,9 @@ export const getImageUrl = (url) => {
   if (!url) return '';
   
   try {
-    // Try multiple proxy services as fallback
-    const proxyUrls = [
-      `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-      `https://cors-anywhere.herokuapp.com/${url}`,
-      `https://api.codetabs.com/v1/proxy?quest=${url}`,
-      url // Fallback to original URL if all proxies fail
-    ];
-
-    // Return the first proxy URL
-    return proxyUrls[0];
+    // Use wsrv.nl as the primary image proxy service
+    // It's more reliable and has better caching
+    return `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`;
   } catch (error) {
     console.error('Error processing image URL:', error);
     return url; // Fallback to original URL

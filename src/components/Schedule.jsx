@@ -1,55 +1,52 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchSchedule } from "../utils/dataFetchers";
-import { getImageUrl } from "../utils/corsProxy";
+import React, { useEffect, useState } from 'react';
+import { fetchHomeData } from '../utils/dataFetchers';
+import { getImageUrl } from '../utils/corsProxy';
+import { Link } from 'react-router-dom';
 
-const Schedule = ({ date }) => {
-  const [schedule, setSchedule] = useState([]);
+const Schedule = () => {
+  const [scheduleData, setScheduleData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadSchedule = async () => {
+    const loadScheduleData = async () => {
       try {
-        const data = await fetchSchedule(date);
-        setSchedule(data || []);
+        const data = await fetchHomeData();
+        setScheduleData(data.schedule || []);
+        setLoading(false);
       } catch (err) {
         setError(err.message);
-      } finally {
         setLoading(false);
       }
     };
 
-    loadSchedule();
-  }, [date]);
+    loadScheduleData();
+  }, []);
 
-  if (loading) return <div className="space-y-4">
-    {[...Array(5)].map((_, i) => (
-      <div key={i} className="h-20 bg-gray-800 animate-pulse rounded-lg"></div>
-    ))}
-  </div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!scheduleData.length) return null;
 
   return (
-    <div className="space-y-4">
-      {schedule.map((anime) => (
-        <Link
-          key={anime.id}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {scheduleData.map((anime) => (
+        <Link 
+          key={anime.id} 
           to={`/anime/${anime.id}`}
-          className="flex items-center p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+          className="group"
         >
-          <img
-            src={getImageUrl(anime.poster)}
-            alt={anime.title}
-            className="w-16 h-16 object-cover rounded"
-          />
-          <div className="ml-4 flex-1">
-            <h3 className="text-lg font-semibold text-white">{anime.title}</h3>
-            <p className="text-sm text-gray-300">{anime.japanese_title}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-white">{anime.time}</p>
-            <p className="text-sm text-gray-300">Episode {anime.episode_no}</p>
+          <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
+            <img
+              src={getImageUrl(anime.poster)}
+              alt={anime.title}
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-0 left-0 p-4">
+                <h3 className="text-white text-lg font-semibold">{anime.title}</h3>
+                <p className="text-gray-300 text-sm">Episode {anime.episode} - {anime.time}</p>
+              </div>
+            </div>
           </div>
         </Link>
       ))}

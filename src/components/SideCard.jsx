@@ -1,54 +1,48 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchHomeData } from "../utils/dataFetchers";
-import { getImageUrl } from "../utils/corsProxy";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchHomeData } from '../utils/dataFetchers';
+import { getImageUrl } from '../utils/corsProxy';
 
 const SideCard = () => {
-  const [trending, setTrending] = useState([]);
+  const [popularAnime, setPopularAnime] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadTrending = async () => {
+    const loadPopularAnime = async () => {
       try {
         const data = await fetchHomeData();
-        setTrending(data.trending || []);
+        setPopularAnime(data.popular || []);
+        setLoading(false);
       } catch (err) {
         setError(err.message);
-      } finally {
         setLoading(false);
       }
     };
 
-    loadTrending();
+    loadPopularAnime();
   }, []);
 
-  if (loading) return <div className="space-y-4">
-    {[...Array(5)].map((_, i) => (
-      <div key={i} className="h-20 bg-gray-800 animate-pulse rounded-lg"></div>
-    ))}
-  </div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!popularAnime.length) return null;
 
   return (
     <div className="space-y-4">
-      {trending.map((anime) => (
-        <Link
-          key={anime.id}
+      {popularAnime.map((anime) => (
+        <Link 
+          key={anime.id} 
           to={`/anime/${anime.id}`}
-          className="flex items-center p-4 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+          className="flex items-center gap-4 p-2 hover:bg-gray-800 rounded-lg transition-colors"
         >
           <img
             src={getImageUrl(anime.poster)}
             alt={anime.title}
-            className="w-16 h-16 object-cover rounded"
+            className="w-16 h-24 object-cover rounded-lg"
           />
-          <div className="ml-4 flex-1">
-            <h3 className="text-lg font-semibold text-white">{anime.title}</h3>
-            <p className="text-sm text-gray-300">{anime.japanese_title}</p>
-          </div>
-          <div className="text-right">
-            <p className="text-white">#{anime.number}</p>
+          <div className="flex-1">
+            <h3 className="text-white font-semibold line-clamp-2">{anime.title}</h3>
+            <p className="text-gray-400 text-sm">{anime.type}</p>
           </div>
         </Link>
       ))}

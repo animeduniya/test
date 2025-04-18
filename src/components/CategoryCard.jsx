@@ -1,53 +1,50 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { fetchCategory } from "../utils/dataFetchers";
-import { getImageUrl } from "../utils/corsProxy";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchCategory } from '../utils/dataFetchers';
+import { getImageUrl } from '../utils/corsProxy';
 
 const CategoryCard = ({ category, page = 1 }) => {
-  const [animes, setAnimes] = useState([]);
+  const [animeList, setAnimeList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadCategory = async () => {
+    const loadCategoryAnime = async () => {
       try {
         const data = await fetchCategory(category, page);
-        setAnimes(data.data || []);
+        setAnimeList(data.anime || []);
+        setLoading(false);
       } catch (err) {
         setError(err.message);
-      } finally {
         setLoading(false);
       }
     };
 
-    loadCategory();
+    loadCategoryAnime();
   }, [category, page]);
 
-  if (loading) return <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-    {[...Array(12)].map((_, i) => (
-      <div key={i} className="h-64 bg-gray-800 animate-pulse rounded-lg"></div>
-    ))}
-  </div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!animeList.length) return null;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-      {animes.map((anime) => (
-        <Link
-          key={anime.id}
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {animeList.map((anime) => (
+        <Link 
+          key={anime.id} 
           to={`/anime/${anime.id}`}
-          className="block group"
+          className="group"
         >
-          <div className="relative overflow-hidden rounded-lg">
+          <div className="relative aspect-[2/3] overflow-hidden rounded-lg">
             <img
               src={getImageUrl(anime.poster)}
               alt={anime.title}
-              className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="absolute bottom-0 left-0 p-4 text-white">
-                <h3 className="text-lg font-semibold mb-1">{anime.title}</h3>
-                <p className="text-sm text-gray-300">{anime.japanese_title}</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute bottom-0 left-0 p-4">
+                <h3 className="text-white text-lg font-semibold">{anime.title}</h3>
+                <p className="text-gray-300 text-sm">{anime.type}</p>
               </div>
             </div>
           </div>

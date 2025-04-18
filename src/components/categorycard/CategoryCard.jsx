@@ -136,7 +136,7 @@ const CategoryCard = React.memo(
                     <div className="overlay"></div>
                     <div className="overflow-hidden">
                       <img
-                        src={getProxiedImageUrl(item.poster)}
+                        src={`https://wsrv.nl/?url=${item.poster}`}
                         alt={item.title}
                         className={`w-full h-[320px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] group-hover:blur-[7px] transform transition-all duration-300 ease-in-out ultra-wide:h-[400px] ${cardStyle}`}
                       />
@@ -243,7 +243,7 @@ const CategoryCard = React.memo(
                   <div className="overlay"></div>
                   <div className="overflow-hidden">
                     <img
-                      src={getProxiedImageUrl(item.poster)}
+                      src={`https://wsrv.nl/?url=${item.poster}`}
                       alt={item.title}
                       className={`w-full h-[250px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle} group-hover:blur-[7px] transform transition-all duration-300 ease-in-out `}
                     />

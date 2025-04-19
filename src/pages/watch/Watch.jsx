@@ -218,7 +218,17 @@ export default function Watch() {
               )}
             </div>
             <div className="player w-full h-fit bg-black flex flex-col">
-              <div className="w-full relative h-[480px] max-[1400px]:h-[40vw] max-[1200px]:h-[48vw] max-[1024px]:h-[58vw] max-[600px]:h-[65vw]">
+              <div 
+                className="w-full relative h-[480px] max-[1400px]:h-[40vw] max-[1200px]:h-[48vw] max-[1024px]:h-[58vw] max-[600px]:h-[65vw]"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                onTouchStart={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+              >
                 {!buffering ? (
                   <Player
                     streamUrl={streamUrl}
@@ -237,7 +247,17 @@ export default function Watch() {
                     streamInfo={streamInfo}
                   />
                 ) : (
-                  <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+                  <div 
+                    className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onTouchStart={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
                     <BouncingLoader />
                   </div>
                 )}

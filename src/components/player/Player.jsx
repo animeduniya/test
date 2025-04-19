@@ -670,5 +670,32 @@ export default function Player({
     };
   }, [streamUrl, subtitles, intro, outro]);
 
-  return <div ref={artRef} className="w-full h-full"></div>;
+  return <div 
+    className="relative w-full h-full"
+    onClick={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }}
+    onTouchStart={(e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }}
+  >
+    <video
+      ref={videoRef}
+      className="w-full h-full"
+      controls
+      playsInline
+      onTouchStart={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
+      <source src={streamUrl} type="application/x-mpegURL" />
+    </video>
+  </div>;
 }

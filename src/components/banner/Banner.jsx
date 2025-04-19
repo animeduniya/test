@@ -17,7 +17,7 @@ function Banner({ item, index }) {
   return (
     <section className="spotlight w-full h-full">
       <img
-        src={`https://corsproxy.io/?${item.poster}`}
+        src={item.poster}
         alt={item.title}
         className="absolute right-0 object-cover h-full w-[80%] bg-auto max-[1200px]:w-full max-[1200px]:bottom-0"
       />

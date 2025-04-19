@@ -46,7 +46,7 @@ export default function WatchControls({
       <div className="flex items-center gap-x-4">
         <h1 className="font-bold text-2xl pb-1 text-white border-b-[3px] border-devilish-crimson max-[350px]:hidden">01</h1>
         <div className="flex pb-4 relative container items-center" style={{ borderBottom: "1px solid rgba(255, 255, 255, 0.075)" }}>
-          <img src="https://wsrv.nl/?url=https://cdn.noitatnemucod.net/thumbnail/300x400/100/bcd84731a3eda4f4a306250769675065.jpg" alt="One Piece" className="w-[60px] h-[75px] rounded-md object-cover flex-shrink-0 cursor-pointer" />
+          <img src="https://cdn.noitatnemucod.net/thumbnail/300x400/100/bcd84731a3eda4f4a306250769675065.jpg" alt="One Piece" className="w-[60px] h-[75px] rounded-md object-cover flex-shrink-0 cursor-pointer" />
           <div className="flex flex-col ml-4 space-y-2">
             <a className="text-[1em] font-[500] hover:cursor-pointer hover:text-devilish-crimson transform transition-all ease-out line-clamp-1 max-[478px]:line-clamp-2 max-[478px]:text-[14px]" href="/one-piece-100">One Piece</a>
             <div className="flex flex-wrap items-center w-fit space-x-1 max-[350px]:gap-y-[3px]">

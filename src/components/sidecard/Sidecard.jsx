@@ -100,7 +100,7 @@ function Sidecard({ data, label, className, limit }) {
                   <div className="relative flex-shrink-0 overflow-hidden rounded-lg w-[70px] h-[85px]">
                     <div className="absolute inset-0 bg-gradient-to-br from-[#ff7eb3] to-[#ff758c] opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
                     <img
-                      src={`https://wsrv.nl/?url=${item.poster}`}
+                      src={item.poster}
                       alt={item.title}
                       className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
                       onClick={() => navigate(`/watch/${item.id}`)}

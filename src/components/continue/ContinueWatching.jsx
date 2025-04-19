@@ -92,7 +92,7 @@ const ContinueWatching = () => {
                   className="inline-block bg-devilish-darker absolute left-0 top-0 w-full h-full group"
                 >
                   <img
-                    src={`https://wsrv.nl/?url=${item?.poster}`}
+                    src={item?.poster}
                     alt={item?.title}
                     className="block w-full h-full object-cover transition-all duration-300 ease-in-out group-hover:blur-[4px]"
                     title={item?.title}

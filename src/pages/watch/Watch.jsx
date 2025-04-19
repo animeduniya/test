@@ -173,16 +173,12 @@ export default function Watch() {
     <div className="w-full h-fit flex flex-col justify-center items-center relative">
       <div className="w-full relative max-[1400px]:px-[30px] max-[1200px]:px-[80px] max-[1024px]:px-0">
         <img
-          src={
-            !animeInfoLoading
-              ? animeInfo?.poster
-              : "https://i.postimg.cc/rFZnx5tQ/2-Kn-Kzog-md.webp"
-          }
+          src={!animeInfoLoading ? animeInfo?.poster : "https://i.postimg.cc/rFZnx5tQ/2-Kn-Kzog-md.webp"}
           alt={`${animeInfo?.title} Poster`}
           className="absolute inset-0 w-full h-full object-cover filter grayscale z-[-900]"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-[#3a3948] bg-opacity-80 backdrop-blur-md z-[-800]"></div>
+        <div className="absolute inset-0 bg-[#3a3948] bg-opacity-80 z-[-800]"></div>
         <div className="relative z-10 px-4 pb-[50px] grid grid-cols-[minmax(0,75%),minmax(0,25%)] w-full h-full mt-[128px] max-[1400px]:flex max-[1400px]:flex-col max-[1200px]:mt-[64px] max-[1024px]:px-0 max-md:mt-[50px]">
           {animeInfo && (
             <ul className="flex absolute left-4 top-[-40px] gap-x-2 items-center w-fit max-[1200px]:hidden">

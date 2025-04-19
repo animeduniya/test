@@ -133,13 +133,17 @@ const CategoryCard = React.memo(
                       />
                     )}
                     <div className="overlay"></div>
-                    <div className="overflow-hidden">
+                    <div className="relative w-full h-fit">
                       <img
-                        src={item.poster}
+                        src={getProxiedImageUrl(item.poster)}
                         alt={item.title}
-                        className={`w-full h-[320px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle}`}
+                        className="w-full h-full object-cover"
                         loading="lazy"
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-2">
+                        <p className="text-white text-sm font-medium truncate">{item.title}</p>
+                      </div>
                     </div>
                     {(item.tvInfo?.rating === "18+" ||
                       item?.adultContent === true) && (
@@ -241,13 +245,17 @@ const CategoryCard = React.memo(
                     />
                   )}
                   <div className="overlay"></div>
-                  <div className="overflow-hidden">
+                  <div className="relative w-full h-fit">
                     <img
-                      src={item.poster}
+                      src={getProxiedImageUrl(item.poster)}
                       alt={item.title}
-                      className={`w-full h-[250px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle}`}
+                      className="w-full h-full object-cover"
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-2">
+                      <p className="text-white text-sm font-medium truncate">{item.title}</p>
+                    </div>
                   </div>
                   {(item.tvInfo?.rating === "18+" ||
                     item?.adultContent === true) && (

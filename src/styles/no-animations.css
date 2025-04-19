@@ -1,0 +1,113 @@
+/* Remove all transitions and animations */
+* {
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  transform-style: flat !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  will-change: auto !important;
+}
+
+/* Remove hover effects */
+*:hover {
+  transform: none !important;
+  transition: none !important;
+}
+
+/* Remove text animations */
+.text-animate,
+.animate-text,
+.text-transition {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Remove loading animations */
+.loading,
+.loader,
+.spinner {
+  display: none !important;
+}
+
+/* Remove scroll animations */
+.smooth-scroll,
+.scroll-animate {
+  scroll-behavior: auto !important;
+}
+
+/* Remove transform animations */
+.transform,
+.translate,
+.scale,
+.rotate {
+  transform: none !important;
+}
+
+/* Remove opacity transitions */
+.opacity-transition,
+.fade {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+/* Remove background transitions */
+.bg-transition {
+  transition: none !important;
+}
+
+/* Remove border transitions */
+.border-transition {
+  transition: none !important;
+}
+
+/* Remove shadow transitions */
+.shadow-transition {
+  transition: none !important;
+}
+
+/* Remove all Tailwind animations */
+.transition-all,
+.transition-transform,
+.transition-opacity,
+.transition-colors,
+.transition-shadow,
+.transition-border,
+.transition-background,
+.transition-text,
+.transition-ease,
+.transition-ease-in,
+.transition-ease-out,
+.transition-ease-in-out,
+.transition-linear,
+.transition-duration,
+.transition-delay {
+  transition: none !important;
+}
+
+/* Remove all Tailwind transforms */
+.transform,
+.translate,
+.scale,
+.rotate,
+.skew {
+  transform: none !important;
+}
+
+/* Remove all Tailwind animations */
+.animate-spin,
+.animate-ping,
+.animate-pulse,
+.animate-bounce {
+  animation: none !important;
+}
+
+/* Remove all Tailwind transitions */
+.group:hover,
+.hover\:,
+.focus\:,
+.active\:,
+.visited\: {
+  transition: none !important;
+  transform: none !important;
+} 

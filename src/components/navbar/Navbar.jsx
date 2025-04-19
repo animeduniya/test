@@ -94,35 +94,28 @@ function Navbar() {
         {/* Left Section */}
         <div className="flex gap-x-6 items-center w-fit max-lg:w-full max-lg:justify-between">
           <div className="flex gap-x-6 items-center">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+            <button
               onClick={handleHamburgerClick}
-              className="text-devilish-light hover:text-devilish-crimson transition-colors duration-300"
+              className="text-devilish-light hover:text-devilish-crimson"
               aria-label="Menu"
             >
               <FontAwesomeIcon
                 icon={isSidebarOpen ? faXmark : faBars}
                 size="lg"
               />
-            </motion.button>
+            </button>
             
-            <motion.div whileHover={{ scale: 1.03 }}>
+            <div>
               <Link
                 to="/"
-                className="text-4xl font-bold max-[575px]:text-3xl cursor-pointer devilish-gradient-text transition-transform duration-300 flex items-center"
+                className="text-4xl font-bold max-[575px]:text-3xl cursor-pointer devilish-gradient-text flex items-center"
               >
                 {logoTitle}
-                <motion.span 
-                  className="text-xs ml-2 bg-devilish-crimson/10 text-devilish-crimson px-2 py-1 rounded-full"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
+                <span className="text-xs ml-2 bg-devilish-crimson/10 text-devilish-crimson px-2 py-1 rounded-full">
                   BETA
-                </motion.span>
+                </span>
               </Link>
-            </motion.div>
+            </div>
           </div>
           
           <div className="max-[900px]:hidden">

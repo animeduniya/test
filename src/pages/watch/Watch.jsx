@@ -180,6 +180,7 @@ export default function Watch() {
           }
           alt={`${animeInfo?.title} Poster`}
           className="absolute inset-0 w-full h-full object-cover filter grayscale z-[-900]"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-[#3a3948] bg-opacity-80 backdrop-blur-md z-[-800]"></div>
         <div className="relative z-10 px-4 pb-[50px] grid grid-cols-[minmax(0,75%),minmax(0,25%)] w-full h-full mt-[128px] max-[1400px]:flex max-[1400px]:flex-col max-[1200px]:mt-[64px] max-[1024px]:px-0 max-md:mt-[50px]">
@@ -301,11 +302,7 @@ export default function Watch() {
                         } max-[1200px]:w-[140px] max-[575px]:w-full`}
                       >
                         <p
-                          className={`text-white text-[12px] font-semibold h-fit leading-0 group-hover:text-devilish-crimson transition-all ease-out ${
-                            animeId === String(season.id)
-                              ? "text-[#ffbade]"
-                              : ""
-                          }`}
+                          className={`text-white text-[12px] font-semibold h-fit leading-0 ${animeId === String(season.id) ? "text-[#ffbade]" : ""}`}
                         >
                           {season.season}
                         </p>
@@ -466,7 +463,7 @@ export default function Watch() {
       </div>
       <div className="w-full flex gap-x-4 items-center bg-[#191826] p-5 max-[575px]:px-3 max-[320px]:hidden">
         <img
-          src="https://i.postimg.cc/d34WWyNQ/share-icon.gif"
+          src="/favicon.png"
           alt="Share Anime"
           className="w-[60px] h-auto rounded-full max-[1024px]:w-[40px] max-[575px]:hidden"
         />

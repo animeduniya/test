@@ -81,33 +81,27 @@ function Sidecard({ data, label, className, limit }) {
             {data && displayedData.map((item, index) => (
               <div
                 key={index}
-                className="relative group"
+                className="relative"
                 ref={(el) => (cardRefs.current[index] = el)}
               >
-                {/* 3D card effect */}
                 <div 
-                  className="flex items-center gap-4 p-4 transition-all duration-300 ease-out rounded-xl group-hover:bg-[rgba(255,255,255,0.05)] group-hover:shadow-[0_8px_32px_rgba(255,122,190,0.1)] group-hover:translate-y-[-4px]"
+                  className="flex items-center gap-4 p-4 rounded-xl"
                   style={{
                     borderBottom: index + 1 < displayedData.length 
                       ? "1px solid rgba(255, 255, 255, 0.05)" 
                       : "none",
                   }}
                 >
-                  {/* Glow effect on hover */}
-                  <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#ff7eb333] to-transparent"></div>
-
-                  {/* Poster with shine effect */}
                   <div className="relative flex-shrink-0 overflow-hidden rounded-lg w-[70px] h-[85px]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#ff7eb3] to-[#ff758c] opacity-0 group-hover:opacity-20 transition-opacity duration-300 z-10"></div>
                     <img
                       src={item.poster}
                       alt={item.title}
-                      className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 object-cover w-full h-full"
                       onClick={() => navigate(`/watch/${item.id}`)}
-                      onMouseEnter={() => handleMouseEnter(item, index)}
-                      onMouseLeave={handleMouseLeave}
+                      onMouseEnter={() => window.innerWidth > 768 && handleMouseEnter(item, index)}
+                      onMouseLeave={() => window.innerWidth > 768 && handleMouseLeave()}
+                      loading="lazy"
                     />
-                    {/* Rating badge */}
                     {item.rating && (
                       <div className="absolute bottom-[-8px] right-[-8px] z-20 bg-gradient-to-br from-[#ff7eb3] to-[#ff758c] text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
                         {item.rating.toFixed(1)}
@@ -151,14 +145,10 @@ function Sidecard({ data, label, className, limit }) {
                   {/* Hover tooltip */}
                   {hoveredItem === item.id + index && window.innerWidth > 1024 && (
                     <div
-                      className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} ${
-                        tooltipPosition === "top-1/2"
-                          ? "translate-y-[60px]"
-                          : "translate-y-[-60px]"
-                      } z-[100000] transform transition-all duration-300 ease-in-out ${
+                      className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} z-[100000] transition-all duration-300 ease-in-out ${
                         hoveredItem === item.id + index
-                          ? "opacity-100 translate-y-0"
-                          : "opacity-0 translate-y-2"
+                          ? "opacity-100"
+                          : "opacity-0"
                       }`}
                     >
                       <Qtip id={item.id} />

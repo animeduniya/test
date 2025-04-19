@@ -95,19 +95,19 @@ const CategoryCard = React.memo(
           {showViewMore && (
             <Link
               to={`/${path}`}
-              className="flex w-fit items-baseline h-fit rounded-3xl gap-x-1 group"
+              className="flex w-fit items-baseline h-fit rounded-3xl gap-x-1"
             >
-              <p className="text-white text-[12px] font-semibold h-fit leading-0 group-hover:text-devilish-crimson transition-all ease-out">
+              <p className="text-white text-[12px] font-semibold h-fit leading-0">
                 View more
               </p>
-              <FaChevronRight className="text-white text-[10px] group-hover:text-devilish-crimson transition-all ease-out" />
+              <FaChevronRight className="text-white text-[10px]" />
             </Link>
           )}
         </div>
         <>
           {categoryPage && (
             <div
-              className={`grid grid-cols-4 gap-x-3 gap-y-8 transition-all duration-300 ease-in-out ${
+              className={`grid grid-cols-4 gap-x-3 gap-y-8 ${
                 categoryPage && itemsToRender.firstRow.length > 0
                   ? "mt-8 max-[758px]:hidden"
                   : ""
@@ -116,29 +116,29 @@ const CategoryCard = React.memo(
               {itemsToRender.firstRow.map((item, index) => (
                 <div
                   key={index}
-                  className="flex flex-col transition-transform duration-300 ease-in-out"
+                  className="flex flex-col"
                   style={{ height: "fit-content" }}
                   ref={(el) => (cardRefs.current[index] = el)}
                 >
                   <div
-                    className="w-full relative group hover:cursor-pointer"
+                    className="w-full relative cursor-pointer"
                     onClick={() => navigate(`/watch/${item.id}`)}
-                    onMouseEnter={() => handleMouseEnter(item,index)}
-                    onMouseLeave={handleMouseLeave}
+                    onMouseEnter={() => window.innerWidth > 768 && handleMouseEnter(item,index)}
+                    onMouseLeave={() => window.innerWidth > 768 && handleMouseLeave()}
                   >
-                    {hoveredItem === item.id + index && showPlay && (
+                    {hoveredItem === item.id + index && showPlay && window.innerWidth > 768 && (
                       <FontAwesomeIcon
                         icon={faPlay}
                         className="text-[40px] text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10000]"
                       />
                     )}
-
                     <div className="overlay"></div>
                     <div className="overflow-hidden">
                       <img
                         src={item.poster}
                         alt={item.title}
-                        className={`w-full h-[320px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] group-hover:blur-[7px] transform transition-all duration-300 ease-in-out ultra-wide:h-[400px] ${cardStyle}`}
+                        className={`w-full h-[320px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle}`}
+                        loading="lazy"
                       />
                     </div>
                     {(item.tvInfo?.rating === "18+" ||
@@ -181,10 +181,10 @@ const CategoryCard = React.memo(
                     {hoveredItem === item.id + index &&
                       window.innerWidth > 1024 && (
                         <div
-                          className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} z-[100000] transform transition-all duration-300 ease-in-out ${
+                          className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} z-[100000] transition-all duration-300 ease-in-out ${
                             hoveredItem === item.id + index
-                              ? "opacity-100 translate-y-0"
-                              : "opacity-0 translate-y-2"
+                              ? "opacity-100"
+                              : "opacity-0"
                           }`}
                         >
                           <Qtip id={item.id} />
@@ -220,21 +220,21 @@ const CategoryCard = React.memo(
               ))}
             </div>
           )}
-          <div className="grid grid-cols-6 gap-x-3 gap-y-8 mt-6 transition-all duration-300 ease-in-out max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-2">
+          <div className="grid grid-cols-6 gap-x-3 gap-y-8 mt-6 max-[1400px]:grid-cols-4 max-[758px]:grid-cols-3 max-[478px]:grid-cols-2">
             {itemsToRender.remainingItems.map((item, index) => (
               <div
                 key={index}
-                className="flex flex-col transition-transform duration-300 ease-in-out"
+                className="flex flex-col"
                 style={{ height: "fit-content" }}
                 ref={(el) => (cardRefs.current[index] = el)}
               >
                 <div
-                  className="w-full relative group hover:cursor-pointer"
+                  className="w-full relative cursor-pointer"
                   onClick={() => navigate(`/watch/${item.id}`)}
-                  onMouseEnter={() => handleMouseEnter(item, index)}
-                  onMouseLeave={handleMouseLeave}
+                  onMouseEnter={() => window.innerWidth > 768 && handleMouseEnter(item, index)}
+                  onMouseLeave={() => window.innerWidth > 768 && handleMouseLeave()}
                 >
-                  {hoveredItem === item.id + index && showPlay && (
+                  {hoveredItem === item.id + index && showPlay && window.innerWidth > 768 && (
                     <FontAwesomeIcon
                       icon={faPlay}
                       className="text-[40px] text-white absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[10000]"
@@ -245,7 +245,8 @@ const CategoryCard = React.memo(
                     <img
                       src={item.poster}
                       alt={item.title}
-                      className={`w-full h-[250px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle} group-hover:blur-[7px] transform transition-all duration-300 ease-in-out `}
+                      className={`w-full h-[250px] object-cover max-[1200px]:h-[35vw] max-[758px]:h-[45vw] max-[478px]:h-[60vw] ${cardStyle}`}
+                      loading="lazy"
                     />
                   </div>
                   {(item.tvInfo?.rating === "18+" ||
@@ -281,10 +282,10 @@ const CategoryCard = React.memo(
                   {hoveredItem === item.id + index &&
                     window.innerWidth > 1024 && (
                       <div
-                        className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} z-[100000] transform transition-all duration-300 ease-in-out ${
+                        className={`absolute ${tooltipPosition} ${tooltipHorizontalPosition} z-[100000] transition-all duration-300 ease-in-out ${
                           hoveredItem === item.id + index
-                            ? "opacity-100 translate-y-0"
-                            : "opacity-0 translate-y-2"
+                            ? "opacity-100"
+                            : "opacity-0"
                         }`}
                       >
                         <Qtip id={item.id} />

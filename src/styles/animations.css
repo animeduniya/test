@@ -144,7 +144,7 @@
 }
 
 .animate-card-hover:hover {
-  @apply animate-[card-hover_0.3s_forwards];
+  @apply transform -translate-y-1;
 }
 
 .animate-card-glow {
@@ -164,7 +164,7 @@
 }
 
 .animate-nav-hover:hover {
-  @apply animate-[nav-hover_0.3s_forwards];
+  @apply transform translate-x-1;
 }
 
 /* Epic Logo Styles */
@@ -181,7 +181,6 @@
   @apply -z-10;
   filter: blur(10px);
   opacity: 0.7;
-  @apply animate-[logo-glow_2s_infinite];
 }
 
 .epic-logo::after {
@@ -189,7 +188,6 @@
   @apply absolute inset-0;
   background: radial-gradient(circle at center, transparent, rgba(255, 0, 51, 0.2));
   @apply -z-10;
-  @apply animate-[logo-pulse_2s_infinite];
 }
 
 .epic-logo:hover {

@@ -1,0 +1,21 @@
+{
+  "name": "Anime Streaming Platform",
+  "short_name": "Anime",
+  "description": "Watch your favorite anime online",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#191826",
+  "theme_color": "#FFBADE",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+} 

@@ -195,12 +195,8 @@ const SplashScreen = () => {
 
       <AnimatePresence>
         {showSearch && (
-          <motion.div
+          <div
             className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-900 p-6 rounded-lg shadow-xl"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
           >
             <input
               type="text"
@@ -210,14 +206,11 @@ const SplashScreen = () => {
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleKeyDown}
             />
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
-      <motion.div
-        className="absolute bottom-8 flex space-x-6"
-        variants={itemVariants}
-      >
+      <div className="absolute bottom-8 flex space-x-6">
         <Link to="/about" className="nav-link text-white hover:text-red-500 transition-colors">
           About
         </Link>
@@ -230,7 +223,7 @@ const SplashScreen = () => {
         <Link to="/most-popular" className="nav-link text-white hover:text-red-500 transition-colors">
           Popular
         </Link>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

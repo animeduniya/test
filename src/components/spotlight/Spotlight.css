@@ -66,3 +66,42 @@
     flex-direction: column;
   }
 }
+
+.spotlight {
+  position: relative;
+  overflow: hidden;
+  transform: none !important;
+  will-change: none !important;
+}
+
+.spotlight-content {
+  position: relative;
+  z-index: 1;
+  transform: none !important;
+}
+
+.spotlight-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  transform: none !important;
+}
+
+@media (max-width: 768px) {
+  .spotlight {
+    transform: none !important;
+    will-change: none !important;
+  }
+
+  .spotlight-content {
+    transform: none !important;
+  }
+
+  .spotlight-overlay {
+    transform: none !important;
+  }
+}

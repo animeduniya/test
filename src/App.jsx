@@ -18,7 +18,6 @@ import SplashScreen from "./components/splashscreen/SplashScreen";
 import About from "./pages/About.jsx";
 import History from "./pages/History.jsx";
 import AnimatedRune from "./components/animated-rune/AnimatedRune";
-import './styles/no-animations.css'
 
 function App() {
   const location = useLocation();

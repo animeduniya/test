@@ -63,23 +63,19 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cinzel', serif;
-    @apply animate-text-glow;
   }
 
   p {
-    @apply animate-text-float;
   }
 
   button, .button {
-    @apply animate-button-pulse;
   }
 
   .card {
-    @apply animate-card-hover animate-card-glow;
+    @apply bg-devilish-darker/90 rounded-lg overflow-hidden shadow-lg hover:shadow-devilish-crimson/20;
   }
 
   .nav-link {
-    @apply animate-nav-hover;
   }
 }
 
@@ -89,11 +85,11 @@
   }
 
   .devil-card {
-    @apply bg-devilish-darker/90 rounded-lg overflow-hidden shadow-lg hover:shadow-devilish-crimson/20 transition-all duration-300;
+    @apply bg-devilish-darker/90 rounded-lg overflow-hidden shadow-lg hover:shadow-devilish-crimson/20;
   }
 
   .devilish-button {
-    @apply bg-gradient-to-r from-devilish-crimson to-devilish-red text-white font-bold py-3 px-6 rounded-xl shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-[0_0_15px_rgba(255,0,51,0.6)] focus:outline-none;
+    @apply bg-gradient-to-r from-devilish-crimson to-devilish-red text-white font-bold py-3 px-6 rounded-xl shadow-md;
   }
   
   .devilish-gradient-text {
@@ -104,44 +100,26 @@
     text-fill-color: transparent;
   }
 
-  .pulsating-border {
-    @apply border border-devilish-crimson/50 animate-pulse-glow;
-  }
-
-  .hover-scale {
-    @apply transition-transform duration-300 hover:scale-105;
-  }
-
-  .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
-  }
-
   .glass-effect {
     @apply bg-devilish-darker/90 backdrop-blur-md border border-devilish-border/20 rounded-xl;
   }
 
   .text-glow {
-    @apply animate-glow;
   }
 
   .fire-effect {
-    @apply animate-fire;
   }
 
   .float-animation {
-    @apply animate-float;
   }
 
   .slide-in {
-    @apply animate-slide-in;
   }
 
   .zoom-fade {
-    @apply animate-zoom-fade;
   }
 
   .rotate-glow {
-    @apply animate-rotate-glow;
   }
 }
 
@@ -159,183 +137,84 @@
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 0, 51, 0.5);
   border-radius: 4px;
-  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 0, 51, 0.8);
 }
 
-/* Text animations */
-@keyframes textFlicker {
-  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
-    opacity: 0.99;
-    filter: drop-shadow(0 0 1px rgba(255, 0, 51, 0.8)) drop-shadow(0 0 5px rgba(255, 0, 51, 0.5));
+/* Disable all animations and transitions globally */
+* {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+  will-change: none !important;
+  backface-visibility: visible !important;
+  perspective: none !important;
+  transform-style: flat !important;
+}
+
+/* Optimize mobile performance */
+@media (max-width: 768px) {
+  * {
+    transform: none !important;
+    transform-style: flat !important;
+    backface-visibility: visible !important;
+    perspective: none !important;
   }
-  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
-    opacity: 0.4;
-    filter: none;
+
+  body {
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
+  }
+
+  .card {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hover-scale,
+  .hover-lift {
+    transform: none !important;
+  }
+
+  .text-shadow-fire {
+    text-shadow: none !important;
+  }
+
+  .devilish-gradient-text {
+    background: none !important;
+    -webkit-background-clip: none !important;
+    -webkit-text-fill-color: #ff0033 !important;
+    background-clip: none !important;
+    text-fill-color: #ff0033 !important;
   }
 }
 
-@keyframes fireAnim {
-  0%, 100% {
-    filter: drop-shadow(0 0 2px #ff5500) drop-shadow(0 0 6px #ff0033);
-  }
-  50% {
-    filter: drop-shadow(0 0 4px #ff3300) drop-shadow(0 0 10px #ff0000);
-  }
+/* Basic styles without animations */
+.button {
+  @apply bg-gradient-to-r from-devilish-crimson to-devilish-red text-white font-bold py-3 px-6 rounded-xl shadow-md;
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+.card-hover {
+  @apply hover:scale-105;
 }
 
-@keyframes pulseShadow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 15px rgba(255, 0, 51, 0.8);
-  }
+.card-shadow {
+  @apply hover:-translate-y-1 hover:shadow-lg;
 }
 
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 5px rgba(255, 0, 51, 0.5);
-  }
-  50% {
-    text-shadow: 0 0 15px rgba(255, 0, 51, 0.8);
-  }
+/* Keep only essential hover effects without transitions */
+.hover-scale {
+  @apply hover:scale-105;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes zoomFade {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes rotateGlow {
-  0% {
-    transform: rotate(0deg);
-    filter: drop-shadow(0 0 5px rgba(255, 0, 51, 0.5));
-  }
-  100% {
-    transform: rotate(360deg);
-    filter: drop-shadow(0 0 5px rgba(255, 0, 51, 0.5));
-  }
-}
-
-@keyframes slowSpin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes slowSpinReverse {
-  0% {
-    transform: rotate(360deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(255, 0, 51, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 15px rgba(255, 0, 51, 0.8));
-  }
-}
-
-@keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes runeGlow {
-  0%, 100% {
-    filter: drop-shadow(0 0 5px rgba(255, 0, 51, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 0 15px rgba(255, 0, 51, 0.8));
-  }
-}
-
-@keyframes textFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-@keyframes blink-caret {
-  from, to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: #ff0033;
-  }
-}
-
-.animate-slow-spin {
-  animation: slowSpin 20s linear infinite;
-}
-
-.animate-slow-spin-reverse {
-  animation: slowSpinReverse 20s linear infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2s ease-in-out infinite;
+.hover-lift {
+  @apply hover:-translate-y-1 hover:shadow-lg;
 }
 
 .cursor-animated {
   border-right: 2px solid #ff0033;
-  animation: blink-caret 0.75s step-end infinite;
 }
 
 .text-gradient {
@@ -345,3 +224,4 @@
   background-clip: text;
   text-fill-color: transparent;
 }
+

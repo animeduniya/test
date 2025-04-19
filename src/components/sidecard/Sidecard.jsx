@@ -93,18 +93,20 @@ function Sidecard({ data, label, className, limit }) {
                   }}
                 >
                   <div className="relative flex-shrink-0 overflow-hidden rounded-lg w-[70px] h-[85px]">
-                    <div className="relative w-full h-fit">
-                      <img
-                        src={item.poster}
-                        alt={item.title}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-2">
-                        <p className="text-white text-sm font-medium truncate">{item.title}</p>
+                    <img
+                      src={item.poster}
+                      alt={item.title}
+                      className="absolute inset-0 object-cover w-full h-full"
+                      onClick={() => navigate(`/watch/${item.id}`)}
+                      onMouseEnter={() => window.innerWidth > 768 && handleMouseEnter(item, index)}
+                      onMouseLeave={() => window.innerWidth > 768 && handleMouseLeave()}
+                      loading="lazy"
+                    />
+                    {item.rating && (
+                      <div className="absolute bottom-[-8px] right-[-8px] z-20 bg-gradient-to-br from-[#ff7eb3] to-[#ff758c] text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
+                        {item.rating.toFixed(1)}
                       </div>
-                    </div>
+                    )}
                   </div>
 
                   {/* Content */}
